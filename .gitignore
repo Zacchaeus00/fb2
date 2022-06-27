@@ -1,6 +1,5 @@
 .DS_Store
 ckpt/
-data/
 log/
 wandb/
 foo.ipynb
