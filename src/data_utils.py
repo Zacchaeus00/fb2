@@ -23,7 +23,7 @@ def prepare_data(indir, tokenizer, df, max_len):
         encoding = tokenizer.encode_plus(
             discourse_type + " " + discourse_text,
             text,
-            truncation=True,
+            truncation='only_second',
             max_length=max_len
         )
 
