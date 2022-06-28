@@ -25,3 +25,19 @@ def save_json(obj, path):
 def save_pickle(obj, path):
     with open(path, 'wb') as f:
         pickle.dump(obj, f)
+
+
+def get_cv(directory):
+    scores = []
+    for fold in range(5):
+        path = os.path.join(directory, f'fold{fold}.json')
+        if not os.path.isfile(path):
+            return
+        with open(path, 'r') as f:
+            data = json.load(f)
+        scores.append(data['score'])
+    assert len(scores) == 5, len(scores)
+    cv = np.mean(scores)
+    with open(os.path.join(directory, 'cv.txt'), 'w') as f:
+        f.write(str(cv))
+    print(f"*** CV={cv} is saved to {directory} ***")
