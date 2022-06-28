@@ -1,6 +1,7 @@
 import os
 
 import numpy as np
+import torch
 from joblib import Parallel, delayed
 from tqdm import tqdm
 
@@ -52,3 +53,15 @@ def prepare_data_mp(indir, tokenizer, df, max_len, j=8):
         training_samples.extend(result)
 
     return training_samples
+
+
+class FB2Dataset(torch.utils.data.Dataset):
+    def __init__(self, samples):
+        self.samples = samples
+        self.features = ['input_ids', 'attention_mask', 'token_type_ids', 'label']
+
+    def __getitem__(self, i):
+        return {k: v for k, v in self.samples[i].items() if k in self.features}
+
+    def __len__(self):
+        return len(self.samples)
