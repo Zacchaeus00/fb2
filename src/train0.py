@@ -1,6 +1,7 @@
 import argparse
 import os
 import shutil
+import datetime
 
 import numpy as np
 import pandas as pd
@@ -31,6 +32,8 @@ def parse_args_train():
 
 
 cfg = parse_args_train()
+print(datetime.datetime.now())
+print(cfg)
 seed_everything(cfg.seed)
 df = pd.read_csv('../data/train_folds.csv')
 tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
