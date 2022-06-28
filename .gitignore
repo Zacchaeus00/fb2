@@ -1,6 +1,7 @@
 .DS_Store
 ckpt/
-log/
+# log/
+*.err
 wandb/
 foo.ipynb
 output/
