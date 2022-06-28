@@ -10,7 +10,7 @@ from scipy.special import softmax
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
 
 from data_utils import prepare_data_mp, FB2Dataset
-from utils import seed_everything, save_json
+from utils import seed_everything, save_json, get_cv
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
@@ -78,3 +78,4 @@ print(f"fold {cfg.fold}: score={score}")
 torch.save(model.state_dict(), f"../ckpt/train0/exp{cfg.exp}/fold{cfg.fold}.pt")
 shutil.rmtree(f"../ckpt/train0/exp{cfg.exp}/fold{cfg.fold}")
 save_json({**vars(cfg), 'score': score}, f"../ckpt/train0/exp{cfg.exp}/fold{cfg.fold}.json")
+get_cv(f"../ckpt/train0/exp{cfg.exp}/")
