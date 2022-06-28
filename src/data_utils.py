@@ -36,20 +36,3 @@ def prepare_training_data(indir, tokenizer, df, max_len):
 
         training_samples.append(sample)
     return training_samples
-
-
-class FB2Dataset:
-    def __init__(self, samples, tokenizer):
-        self.samples = samples
-        self.tokenizer = tokenizer
-
-    def __len__(self):
-        return len(self.samples)
-
-    def __getitem__(self, idx):
-        sample = self.samples[idx]
-        return {
-            "input_ids": sample['input_ids'],
-            "attention_mask": sample['attention_mask'],
-            "label": sample['label'],
-        }
