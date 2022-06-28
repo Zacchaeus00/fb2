@@ -25,7 +25,7 @@ def parse_args_train():
     arg('--seed', type=int, default=42)
     arg('--fold', default=0, type=int)
     arg('--max_len', default=1024, type=int)
-    arg('--name', required=True, type=str)
+    arg('--exp', required=True, type=int)
     return parser.parse_args()
 
 cfg = parse_args_train()
@@ -39,7 +39,7 @@ train_samples = [s for s in samples if s['fold'] != cfg.fold]
 val_samples = [s for s in samples if s['fold'] == cfg.fold]
 print(f"fold {cfg.fold}: n_train={len(train_samples)}, n_val={len(val_samples)}")
 args = TrainingArguments(
-    output_dir=f"../ckpt/{cfg.name}/fold{cfg.fold}",
+    output_dir=f"../ckpt/train0/exp{cfg.exp}/fold{cfg.fold}",
     save_strategy="steps",
     evaluation_strategy="steps",
     learning_rate=cfg.lr,
@@ -73,6 +73,6 @@ probs = np.clip(probs, 1e-15, 1 - 1e-15)
 score = sklearn.metrics.log_loss([s['label'] for s in val_samples], probs)
 print(f"fold {cfg.fold}: score={score}")
 
-torch.save(model.state_dict(), f"../ckpt/{cfg.name}/{cfg.fold}.pt")
-shutil.rmtree(f"../ckpt/{cfg.name}/fold{cfg.fold}")
-save_json({**vars(cfg), 'score': score}, f"../ckpt/{cfg.name}/{cfg.fold}.json")
+torch.save(model.state_dict(), f"../ckpt/train0/exp{cfg.exp}/fold{cfg.fold}.pt")
+shutil.rmtree(f"../ckpt/train0/exp{cfg.exp}/fold{cfg.fold}")
+save_json({**vars(cfg), 'score': score}, f"../ckpt/train0/exp{cfg.exp}/fold{cfg.fold}.json")
