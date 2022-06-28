@@ -12,13 +12,13 @@ def prepare_data(indir, tokenizer, df, max_len):
     training_samples = []
     for _, row in tqdm(df.iterrows(), total=len(df)):
         id_ = row["essay_id"]
-        discourse_text = row["discourse_text"]
-        discourse_type = row["discourse_type"]
+        discourse_text = row["discourse_text"].lower()
+        discourse_type = row["discourse_type"].lower()
 
         filename = os.path.join(indir, id_ + ".txt")
 
         with open(filename, "r") as f:
-            text = f.read()
+            text = f.read().lower()
 
         encoding = tokenizer.encode_plus(
             discourse_type + " " + discourse_text,
