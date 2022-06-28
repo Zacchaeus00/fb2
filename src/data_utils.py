@@ -5,7 +5,7 @@ from tqdm import tqdm
 LABEL_MAPPING = {"Ineffective": 0, "Adequate": 1, "Effective": 2}
 
 
-def prepare_training_data(indir, tokenizer, df):
+def prepare_training_data(indir, tokenizer, df, max_len):
     training_samples = []
     for _, row in tqdm(df.iterrows(), total=len(df)):
         idx = row["essay_id"]
@@ -17,23 +17,18 @@ def prepare_training_data(indir, tokenizer, df):
         with open(filename, "r") as f:
             text = f.read()
 
-        encoded_text = tokenizer.encode_plus(
+        encoding = tokenizer.encode_plus(
             discourse_type + " " + discourse_text,
             text,
-            add_special_tokens=False,
+            truncation=True,
+            max_length=max_len
         )
 
         sample = {
             "discourse_id": row["discourse_id"],
             "fold": row["kfold"],
-            "input_ids": encoded_text["input_ids"],
-            # "discourse_text": discourse_text,
-            # "essay_text": text,
-            # "mask": encoded_text["attention_mask"],
+            **encoding,
         }
-
-        if "token_type_ids" in encoded_text:
-            sample["token_type_ids"] = encoded_text["token_type_ids"]
 
         if "discourse_effectiveness" in row:
             label = row["discourse_effectiveness"]
@@ -41,3 +36,20 @@ def prepare_training_data(indir, tokenizer, df):
 
         training_samples.append(sample)
     return training_samples
+
+
+class FB2Dataset:
+    def __init__(self, samples, tokenizer):
+        self.samples = samples
+        self.tokenizer = tokenizer
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, idx):
+        sample = self.samples[idx]
+        return {
+            "input_ids": sample['input_ids'],
+            "attention_mask": sample['attention_mask'],
+            "label": sample['label'],
+        }
