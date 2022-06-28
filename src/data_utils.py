@@ -11,11 +11,11 @@ LABEL_MAPPING = {"Ineffective": 0, "Adequate": 1, "Effective": 2}
 def prepare_data(indir, tokenizer, df, max_len):
     training_samples = []
     for _, row in tqdm(df.iterrows(), total=len(df)):
-        idx = row["essay_id"]
+        id_ = row["essay_id"]
         discourse_text = row["discourse_text"]
         discourse_type = row["discourse_type"]
 
-        filename = os.path.join(indir, idx + ".txt")
+        filename = os.path.join(indir, id_ + ".txt")
 
         with open(filename, "r") as f:
             text = f.read()
