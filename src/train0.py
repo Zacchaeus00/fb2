@@ -14,6 +14,7 @@ from utils import seed_everything, save_json
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
+
 def parse_args_train():
     parser = argparse.ArgumentParser(description='')
     arg = parser.add_argument
@@ -27,6 +28,7 @@ def parse_args_train():
     arg('--max_len', default=1024, type=int)
     arg('--exp', required=True, type=int)
     return parser.parse_args()
+
 
 cfg = parse_args_train()
 seed_everything(cfg.seed)
