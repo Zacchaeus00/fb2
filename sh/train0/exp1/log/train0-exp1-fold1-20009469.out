@@ -1,0 +1,51 @@
+Wed Jun 29 09:12:57 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.80       Driver Version: 460.80       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 3090    Off  | 00000000:45:00.0 Off |                  N/A |
+| 39%   25C    P8    17W / 350W |      0MiB / 24268MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+2022-06-29 09:14:29.216878
+Namespace(batch_size=8, ckpt='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-base', epochs=5, exp=1, fold=1, gradient_checkpointing=False, lr=3e-05, max_len=1024, seed=42, weight_decay=0.0)
+fold 1: n_train=29496, n_val=7269
+{'eval_loss': 0.8024855256080627, 'eval_runtime': 186.8821, 'eval_samples_per_second': 38.896, 'eval_steps_per_second': 4.864, 'epoch': 0.41}
+{'loss': 0.8032, 'learning_rate': 2.0309194467046377e-05, 'epoch': 0.68}
+{'eval_loss': 0.8070088028907776, 'eval_runtime': 186.7425, 'eval_samples_per_second': 38.925, 'eval_steps_per_second': 4.868, 'epoch': 0.81}
+{'eval_loss': 0.8203019499778748, 'eval_runtime': 186.6342, 'eval_samples_per_second': 38.948, 'eval_steps_per_second': 4.87, 'epoch': 1.22}
+{'loss': 0.7138, 'learning_rate': 2.7341334418226202e-05, 'epoch': 1.36}
+{'eval_loss': 0.7793497443199158, 'eval_runtime': 186.533, 'eval_samples_per_second': 38.969, 'eval_steps_per_second': 4.873, 'epoch': 1.63}
+{'loss': 0.642, 'learning_rate': 2.22620016273393e-05, 'epoch': 2.03}
+{'eval_loss': 0.8824759721755981, 'eval_runtime': 186.294, 'eval_samples_per_second': 39.019, 'eval_steps_per_second': 4.879, 'epoch': 2.03}
+{'eval_loss': 0.8444749116897583, 'eval_runtime': 185.736, 'eval_samples_per_second': 39.136, 'eval_steps_per_second': 4.894, 'epoch': 2.44}
+{'loss': 0.5688, 'learning_rate': 1.717860048820179e-05, 'epoch': 2.71}
+{'eval_loss': 0.7557061314582825, 'eval_runtime': 185.4378, 'eval_samples_per_second': 39.199, 'eval_steps_per_second': 4.902, 'epoch': 2.85}
+{'eval_loss': 0.9658687710762024, 'eval_runtime': 185.1932, 'eval_samples_per_second': 39.251, 'eval_steps_per_second': 4.908, 'epoch': 3.25}
+{'loss': 0.5069, 'learning_rate': 1.209519934906428e-05, 'epoch': 3.39}
+{'eval_loss': 0.9005861282348633, 'eval_runtime': 185.0861, 'eval_samples_per_second': 39.274, 'eval_steps_per_second': 4.911, 'epoch': 3.66}
+{'loss': 0.4593, 'learning_rate': 7.013832384052075e-06, 'epoch': 4.07}
+{'eval_loss': 1.0725966691970825, 'eval_runtime': 185.2401, 'eval_samples_per_second': 39.241, 'eval_steps_per_second': 4.907, 'epoch': 4.07}
+{'eval_loss': 1.22805917263031, 'eval_runtime': 185.4919, 'eval_samples_per_second': 39.188, 'eval_steps_per_second': 4.9, 'epoch': 4.48}
+{'loss': 0.3753, 'learning_rate': 1.93246541903987e-06, 'epoch': 4.75}
+{'eval_loss': 1.2147175073623657, 'eval_runtime': 185.718, 'eval_samples_per_second': 39.14, 'eval_steps_per_second': 4.895, 'epoch': 4.88}
+{'train_runtime': 8666.8165, 'train_samples_per_second': 17.017, 'train_steps_per_second': 2.127, 'train_loss': 0.5708917512782453, 'epoch': 5.0}
+fold 1: score=0.7556719368664233
+FINISH
