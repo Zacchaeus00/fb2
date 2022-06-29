@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import sklearn
 import torch
+from torch.utils.checkpoint import checkpoint
 from scipy.special import softmax
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
 
@@ -28,6 +29,7 @@ def parse_args_train():
     arg('--fold', default=0, type=int)
     arg('--max_len', default=1024, type=int)
     arg('--exp', required=True, type=int)
+    arg('--gradient_checkpointing', action="store_true", required=False)
     return parser.parse_args()
 
 
@@ -37,8 +39,10 @@ print(cfg)
 seed_everything(cfg.seed)
 df = pd.read_csv('../data/train_folds.csv')
 tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
-samples = prepare_data_mp('../data/feedback-prize-effectiveness/train', tokenizer, df, max_len=cfg.max_len, j=4)
+samples = prepare_data_mp('../data/feedback-prize-effectiveness/train', tokenizer, df, max_len=cfg.max_len, j=8)
 model = AutoModelForSequenceClassification.from_pretrained(cfg.ckpt, num_labels=3)
+if cfg.gradient_checkpointing:
+    model.gradient_checkpointing_enable()
 
 train_samples = [s for s in samples if s['fold'] != cfg.fold]
 val_samples = [s for s in samples if s['fold'] == cfg.fold]
@@ -49,7 +53,7 @@ args = TrainingArguments(
     evaluation_strategy="steps",
     learning_rate=cfg.lr,
     per_device_train_batch_size=cfg.batch_size,
-    per_device_eval_batch_size=16,
+    per_device_eval_batch_size=32,
     num_train_epochs=cfg.epochs,
     weight_decay=cfg.weight_decay,
     warmup_ratio=0.2,
@@ -61,8 +65,8 @@ args = TrainingArguments(
     save_total_limit=1,
     seed=cfg.seed,
     logging_steps=2500,
-    save_steps=2500,
-    eval_steps=2500,
+    save_steps=1500,
+    eval_steps=1500,
 )
 trainer = Trainer(
     model,
