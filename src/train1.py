@@ -1,3 +1,4 @@
+# train0 + reinit
 import argparse
 import os
 import shutil
