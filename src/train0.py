@@ -71,10 +71,11 @@ trainer = Trainer(
     eval_dataset=FB2Dataset(val_samples),
     tokenizer=tokenizer,
 )
-trainer.train()
-logits = trainer.predict(FB2Dataset(val_samples)).predictions[1]
-np.save(f"../ckpt/train0/exp{cfg.exp}/oof_logits_fold{cfg.fold}.npy", logits)
-probs = softmax(logits, axis=1)
+# trainer.train()
+predictions = trainer.predict(FB2Dataset(val_samples)).predictions
+print(predictions)
+np.save(f"../ckpt/train0/exp{cfg.exp}/oof_logits_fold{cfg.fold}.npy", predictions)
+probs = softmax(predictions, axis=1)
 probs = np.clip(probs, 1e-15, 1 - 1e-15)
 score = sklearn.metrics.log_loss([s['label'] for s in val_samples], probs)
 print(f"fold {cfg.fold}: score={score}")
