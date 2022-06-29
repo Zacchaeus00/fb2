@@ -71,9 +71,8 @@ trainer = Trainer(
     eval_dataset=FB2Dataset(val_samples),
     tokenizer=tokenizer,
 )
-# trainer.train()
+trainer.train()
 predictions = trainer.predict(FB2Dataset(val_samples)).predictions
-print(predictions)
 np.save(f"../ckpt/train0/exp{cfg.exp}/oof_logits_fold{cfg.fold}.npy", predictions)
 probs = softmax(predictions, axis=1)
 probs = np.clip(probs, 1e-15, 1 - 1e-15)
