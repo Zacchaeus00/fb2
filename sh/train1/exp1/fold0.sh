@@ -23,7 +23,7 @@ cd /gpfsnyu/scratch/yw3642/fb2/src
 echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
-python -u train0.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-base \
+python -u train1.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-base \
 --epochs 5 --batch_size 8 --lr 3e-5 --weight_decay 0 --seed 42 --max_len 1024 \
 --exp 0 --fold 0 --reinit_pooler --reinit_layers 1
 echo "FINISH"
