@@ -37,8 +37,8 @@ args = TrainingArguments(
     save_total_limit=1,
     seed=cfg.seed,
 )
-model = AutoModelForMaskedLM.from_pretrained(cfg.pretrained_checkpoint)
-tokenizer = AutoTokenizer.from_pretrained(cfg.pretrained_checkpoint)
+model = AutoModelForMaskedLM.from_pretrained(cfg.ckpt)
+tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
 dataset = PretrainDataset('../data/feedback-prize-effectiveness/train', tokenizer, cfg.max_len)
 print(f"n_train={len(dataset)}")
 trainer = Trainer(
