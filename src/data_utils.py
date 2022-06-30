@@ -116,6 +116,7 @@ def prepare_data_token_cls(essay, train, tokenizer):
 
         # 2. cls
         j = 0
+        label_positions = []
         for i in range(seq_len):
             if j == len(sample['raw_labels']):
                 break
@@ -123,7 +124,9 @@ def prepare_data_token_cls(essay, train, tokenizer):
             if enc['offset_mapping'][i][0] >= s and e > s:
                 label[i] = sample['raw_labels'][j]
                 j += 1
+                label_positions.append(i)
         sample['label'] = label
+        sample['label_positions'] = label_positions
         for k, v in enc.items():
             sample[k] = v
         nlabel_assigned = len([l for l in sample['label'] if l != -100])

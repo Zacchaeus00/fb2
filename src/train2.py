@@ -4,15 +4,12 @@ import os
 import shutil
 import datetime
 
-import numpy as np
 import pandas as pd
-import sklearn
 import torch
-from torch.utils.checkpoint import checkpoint
-from scipy.special import softmax
 from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
 
 from data_utils import FB2Dataset, prepare_data_token_cls
+from eval_utils import eval_token_cls_model
 from utils import seed_everything, save_json, get_cv
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
@@ -80,14 +77,10 @@ trainer = Trainer(
     data_collator=DataCollatorForTokenClassification(tokenizer),
 )
 trainer.train()
-# predictions = trainer.predict(FB2Dataset(val_samples)).predictions
-# np.save(f"../ckpt/train2/exp{cfg.exp}/oof_logits_fold{cfg.fold}.npy", predictions)
-# probs = softmax(predictions, axis=1)
-# probs = np.clip(probs, 1e-15, 1 - 1e-15)
-# score = sklearn.metrics.log_loss([s['label'] for s in val_samples], probs)
-# print(f"fold {cfg.fold}: score={score}")
+score = eval_token_cls_model(model, val_samples)
+print(f"fold {cfg.fold}: score={score}")
 
-# torch.save(model.state_dict(), f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}.pt")
-# shutil.rmtree(f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}")
-# save_json({**vars(cfg), 'score': score}, f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}.json")
-# get_cv(f"../ckpt/train2/exp{cfg.exp}/")
+torch.save(model.state_dict(), f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}.pt")
+shutil.rmtree(f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}")
+save_json({**vars(cfg), 'score': score}, f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}.json")
+get_cv(f"../ckpt/train2/exp{cfg.exp}/")
