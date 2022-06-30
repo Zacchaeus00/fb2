@@ -28,6 +28,7 @@ def parse_args_train():
     arg('--fold', default=0, type=int)
     arg('--exp', required=True, type=int)
     arg('--gradient_checkpointing', action="store_true", required=False)
+    arg('--use_pretrained', type=str, default='')
     return parser.parse_args()
 
 
@@ -42,6 +43,8 @@ essay = essay.set_index('essay_id').squeeze()
 train = pd.read_csv('../data/train_processed.csv')
 samples = prepare_data_token_cls(essay, train, tokenizer)
 model = AutoModelForTokenClassification.from_pretrained(cfg.ckpt, num_labels=3)
+if cfg.use_pretrained:
+    model.load_state_dict(torch.load(cfg.use_pretrained))
 if cfg.gradient_checkpointing:
     model.gradient_checkpointing_enable()
 
