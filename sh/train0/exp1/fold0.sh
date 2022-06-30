@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=train0-exp1-fold0
+#SBATCH --job-name=train0-exp0-fold0
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8

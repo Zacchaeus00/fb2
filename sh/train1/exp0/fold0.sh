@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=train1-exp1-fold2
+#SBATCH --job-name=train1-exp0-fold0
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -25,5 +25,5 @@ source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u train1.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-base \
 --epochs 5 --batch_size 8 --lr 3e-5 --weight_decay 0 --seed 42 --max_len 1024 \
---exp 0 --fold 2 --reinit_pooler --reinit_layers 1
+--exp 0 --fold 0 --reinit_pooler --reinit_layers 1
 echo "FINISH"
