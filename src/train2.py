@@ -44,7 +44,7 @@ train = pd.read_csv('../data/train_processed.csv')
 samples = prepare_data_token_cls(essay, train, tokenizer)
 model = AutoModelForTokenClassification.from_pretrained(cfg.ckpt, num_labels=3)
 if cfg.use_pretrained:
-    model.load_state_dict(torch.load(cfg.use_pretrained))
+    model.load_state_dict(torch.load(cfg.use_pretrained), strict=False)
 if cfg.gradient_checkpointing:
     model.gradient_checkpointing_enable()
 
