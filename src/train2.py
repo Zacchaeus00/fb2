@@ -10,7 +10,7 @@ import sklearn
 import torch
 from torch.utils.checkpoint import checkpoint
 from scipy.special import softmax
-from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer
+from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
 
 from data_utils import FB2Dataset, prepare_data_token_cls
 from utils import seed_everything, save_json, get_cv
@@ -77,6 +77,7 @@ trainer = Trainer(
     train_dataset=FB2Dataset(train_samples),
     eval_dataset=FB2Dataset(val_samples),
     tokenizer=tokenizer,
+    data_collator=DataCollatorForTokenClassification(tokenizer),
 )
 trainer.train()
 # predictions = trainer.predict(FB2Dataset(val_samples)).predictions
