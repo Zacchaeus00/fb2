@@ -1,9 +1,11 @@
 import argparse
+import shutil
 
+import torch
 from transformers import AutoModelForMaskedLM, TrainingArguments, Trainer, AutoTokenizer, DataCollatorForWholeWordMask
 
 from data_utils import PretrainDataset
-
+from utils import save_json
 
 def parse_args_pretrain():
     parser = argparse.ArgumentParser(description='')
@@ -23,7 +25,7 @@ def parse_args_pretrain():
 
 cfg = parse_args_pretrain()
 args = TrainingArguments(
-    output_dir=f"../ckpt/pretrain0/exp{cfg.exp}",
+    output_dir=f"../ckpt/pretrain0/exp{cfg.exp}/tmp",
     save_strategy="epoch",
     learning_rate=cfg.lr,
     per_device_train_batch_size=cfg.batch_size,
@@ -51,3 +53,6 @@ trainer = Trainer(
         tokenizer=tokenizer, mlm=True, mlm_probability=cfg.mlm_prob),
 )
 trainer.train()
+torch.save(model.state_dict(), f"../ckpt/pretrain0/exp{cfg.exp}/pretrained_model.pt")
+shutil.rmtree(f"../ckpt/pretrain0/exp{cfg.exp}/tmp")
+save_json(vars(cfg), f"../ckpt/pretrain0/exp{cfg.exp}/config.json")
