@@ -1,11 +1,14 @@
 import argparse
 import shutil
+import os
 
 import torch
 from transformers import AutoModelForMaskedLM, TrainingArguments, Trainer, AutoTokenizer, DataCollatorForWholeWordMask
 
 from data_utils import PretrainDataset
 from utils import save_json
+
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 def parse_args_pretrain():
     parser = argparse.ArgumentParser(description='')
