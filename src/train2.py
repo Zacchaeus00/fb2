@@ -1,4 +1,4 @@
-# train2 + token-level cls
+# train0 + token-level cls
 import argparse
 import os
 import shutil
