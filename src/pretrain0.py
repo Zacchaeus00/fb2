@@ -45,7 +45,7 @@ args = TrainingArguments(
 )
 model = AutoModelForMaskedLM.from_pretrained(cfg.ckpt)
 tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
-dataset = PretrainDataset('../data/feedback-prize-effectiveness/train', tokenizer, cfg.max_len)
+dataset = PretrainDataset('../data/feedback-prize-2021/train', tokenizer, cfg.max_len)
 print(f"n_train={len(dataset)}")
 trainer = Trainer(
     model,
