@@ -67,10 +67,9 @@ args = TrainingArguments(
     group_by_length=True,
     save_total_limit=1,
     seed=cfg.seed,
-    logging_steps=2500,
-    save_steps=1500,
-    eval_steps=1500,
-    label_names=['label'],
+    logging_steps=1000,
+    save_steps=1000,
+    eval_steps=1000,
 )
 trainer = Trainer(
     model,

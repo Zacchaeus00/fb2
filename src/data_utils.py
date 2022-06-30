@@ -61,7 +61,11 @@ class FB2Dataset(torch.utils.data.Dataset):
         self.features = ['input_ids', 'attention_mask', 'token_type_ids', 'label']
 
     def __getitem__(self, i):
-        return {k: v for k, v in self.samples[i].items() if k in self.features}
+        data = {k: v for k, v in self.samples[i].items() if k in self.features}
+        if 'label' in data:
+            data['labels'] = data['label']
+            del data['label']
+        return data
 
     def __len__(self):
         return len(self.samples)
