@@ -102,7 +102,7 @@ def prepare_data_token_cls(essay, train, tokenizer):
             labels.append(label)
         assert (idxs == list(sorted(idxs))), idxs
         assert df['kfold'].nunique() == 1, df['kfold'].nunique()
-        samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0]})
+        samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid})
     for sample in tqdm(samples):
         enc = tokenizer(sample['text'], return_offsets_mapping=True, add_special_tokens=False)
         seq_len = len(enc['input_ids'])
