@@ -70,6 +70,7 @@ args = TrainingArguments(
     logging_steps=2500,
     save_steps=1500,
     eval_steps=1500,
+    label_names=['label'],
 )
 trainer = Trainer(
     model,
