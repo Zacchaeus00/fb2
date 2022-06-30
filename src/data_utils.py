@@ -4,6 +4,7 @@ import numpy as np
 import torch
 from joblib import Parallel, delayed
 from tqdm import tqdm
+from glob import glob
 
 LABEL_MAPPING = {"Ineffective": 0, "Adequate": 1, "Effective": 2}
 
@@ -132,3 +133,22 @@ def prepare_data_token_cls(essay, train, tokenizer):
         nlabel_assigned = len([l for l in sample['label'] if l != -100])
         assert (nlabel_assigned == len(sample['raw_labels'])), f"{nlabel_assigned}, {len(sample['raw_labels'])}"
     return samples
+
+
+class PretrainDataset(torch.utils.data.Dataset):
+    def __init__(self, indir, tokenizer, max_len):
+        paths = glob(os.path.join(indir, '*.txt'))
+        self.texts = []
+        for p in paths:
+            with open(p, 'r') as f:
+                self.texts.append(f.read().lower())
+        self.tokenizer = tokenizer
+        self.max_len = max_len
+
+    def __getitem__(self, idx):
+        return self.tokenizer(self.texts[idx], add_special_tokens=False, max_length=self.max_len, truncation=True)
+
+    def __len__(self):
+        return len(self.texts)
+
+
