@@ -6,6 +6,7 @@ import datetime
 
 import pandas as pd
 import torch
+from torch.utils.checkpoint import checkpoint
 from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
 
 from data_utils import FB2Dataset, prepare_data_token_cls
