@@ -39,7 +39,7 @@ print(cfg)
 seed_everything(cfg.seed)
 df = pd.read_csv('../data/train_folds.csv')
 tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
-samples = prepare_data_token_cls('../data/feedback-prize-effectiveness/train', tokenizer, df, max_len=cfg.max_len, j=8)
+samples = prepare_data_token_cls(pd.read_csv('../data/essay_processed.csv'), pd.read_csv('../data/train_processed.csv'), tokenizer)
 model = AutoModelForTokenClassification.from_pretrained(cfg.ckpt, num_labels=3)
 if cfg.gradient_checkpointing:
     model.gradient_checkpointing_enable()
