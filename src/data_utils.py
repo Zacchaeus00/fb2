@@ -107,12 +107,25 @@ def prepare_data_token_cls(essay, train, tokenizer):
         enc = tokenizer(sample['text'], return_offsets_mapping=True, add_special_tokens=False)
         seq_len = len(enc['input_ids'])
         label = [-100 for _ in range(seq_len)]
+        # 1. mean
+        # for i in range(seq_len):
+        #     for j, (s, e) in enumerate(sample['spans']):
+        #         if enc['offset_mapping'][i][0] >= s and enc['offset_mapping'][i][0] < e and e > s:
+        #             label[i] = sample['raw_labels'][j]
+        #             break
+
+        # 2. cls
+        j = 0
         for i in range(seq_len):
-            for j, (s, e) in enumerate(sample['spans']):
-                if s <= enc['offset_mapping'][i][0] < e and e > s:
-                    label[i] = sample['raw_labels'][j]
-                    break
+            if j == len(sample['raw_labels']):
+                break
+            s, e = sample['spans'][j]
+            if enc['offset_mapping'][i][0] >= s and e > s:
+                label[i] = sample['raw_labels'][j]
+                j += 1
         sample['label'] = label
         for k, v in enc.items():
             sample[k] = v
+        nlabel_assigned = len([l for l in sample['label'] if l != -100])
+        assert (nlabel_assigned == len(sample['raw_labels'])), f"{nlabel_assigned}, {len(sample['raw_labels'])}"
     return samples
