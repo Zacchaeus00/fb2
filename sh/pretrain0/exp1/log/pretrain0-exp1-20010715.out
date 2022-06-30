@@ -1,0 +1,88 @@
+Thu Jun 30 16:56:18 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.80       Driver Version: 460.80       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 3090    Off  | 00000000:45:00.0 Off |                  N/A |
+| 39%   26C    P8    17W / 350W |      0MiB / 24268MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+n_train=15594
+{'loss': 11.7577, 'learning_rate': 9.502436522185175e-07, 'epoch': 0.13}
+{'loss': 7.6602, 'learning_rate': 1.912028725314183e-06, 'epoch': 0.26}
+{'loss': 6.9443, 'learning_rate': 2.873813798409849e-06, 'epoch': 0.38}
+{'loss': 6.1317, 'learning_rate': 3.835598871505514e-06, 'epoch': 0.51}
+{'loss': 5.454, 'learning_rate': 4.79738394460118e-06, 'epoch': 0.64}
+{'loss': 4.9312, 'learning_rate': 5.759169017696845e-06, 'epoch': 0.77}
+{'loss': 4.5468, 'learning_rate': 6.720954090792511e-06, 'epoch': 0.9}
+{'loss': 4.2095, 'learning_rate': 7.682739163888177e-06, 'epoch': 1.03}
+{'loss': 3.9204, 'learning_rate': 8.644524236983843e-06, 'epoch': 1.15}
+{'loss': 3.6917, 'learning_rate': 9.606309310079507e-06, 'epoch': 1.28}
+{'loss': 3.4989, 'learning_rate': 1.0568094383175174e-05, 'epoch': 1.41}
+{'loss': 3.3252, 'learning_rate': 1.152987945627084e-05, 'epoch': 1.54}
+{'loss': 3.1962, 'learning_rate': 1.2491664529366504e-05, 'epoch': 1.67}
+{'loss': 3.0555, 'learning_rate': 1.345344960246217e-05, 'epoch': 1.8}
+{'loss': 2.9751, 'learning_rate': 1.4413311105411644e-05, 'epoch': 1.92}
+{'loss': 2.8536, 'learning_rate': 1.537509617850731e-05, 'epoch': 2.05}
+{'loss': 2.7732, 'learning_rate': 1.6336881251602976e-05, 'epoch': 2.18}
+{'loss': 2.7207, 'learning_rate': 1.729866632469864e-05, 'epoch': 2.31}
+{'loss': 2.6378, 'learning_rate': 1.8258527827648112e-05, 'epoch': 2.44}
+{'loss': 2.5622, 'learning_rate': 1.922031290074378e-05, 'epoch': 2.56}
+{'loss': 2.5285, 'learning_rate': 2.0182097973839447e-05, 'epoch': 2.69}
+{'loss': 2.4533, 'learning_rate': 2.114388304693511e-05, 'epoch': 2.82}
+{'loss': 2.4044, 'learning_rate': 2.210566812003078e-05, 'epoch': 2.95}
+{'loss': 2.3639, 'learning_rate': 2.3067453193126443e-05, 'epoch': 3.08}
+{'loss': 2.315, 'learning_rate': 2.4029238266222107e-05, 'epoch': 3.21}
+{'loss': 2.2753, 'learning_rate': 2.4989099769171583e-05, 'epoch': 3.33}
+{'loss': 2.2401, 'learning_rate': 2.5950884842267247e-05, 'epoch': 3.46}
+{'loss': 2.2224, 'learning_rate': 2.6910746345216723e-05, 'epoch': 3.59}
+{'loss': 2.1796, 'learning_rate': 2.7872531418312387e-05, 'epoch': 3.72}
+{'loss': 2.1678, 'learning_rate': 2.8834316491408055e-05, 'epoch': 3.85}
+{'loss': 2.1448, 'learning_rate': 2.979610156450372e-05, 'epoch': 3.98}
+{'loss': 2.111, 'learning_rate': 2.9810528340600156e-05, 'epoch': 4.1}
+{'loss': 2.0647, 'learning_rate': 2.9570082072326237e-05, 'epoch': 4.23}
+{'loss': 2.0352, 'learning_rate': 2.932963580405232e-05, 'epoch': 4.36}
+{'loss': 2.0227, 'learning_rate': 2.9089189535778408e-05, 'epoch': 4.49}
+{'loss': 2.008, 'learning_rate': 2.884874326750449e-05, 'epoch': 4.62}
+{'loss': 1.9864, 'learning_rate': 2.8608296999230573e-05, 'epoch': 4.74}
+{'loss': 1.9605, 'learning_rate': 2.8367850730956656e-05, 'epoch': 4.87}
+{'loss': 1.9192, 'learning_rate': 2.812740446268274e-05, 'epoch': 5.0}
+{'loss': 1.8837, 'learning_rate': 2.7886958194408824e-05, 'epoch': 5.13}
+{'loss': 1.8842, 'learning_rate': 2.7646511926134905e-05, 'epoch': 5.26}
+{'loss': 1.905, 'learning_rate': 2.7406065657860992e-05, 'epoch': 5.39}
+{'loss': 1.8819, 'learning_rate': 2.7165619389587073e-05, 'epoch': 5.51}
+{'loss': 1.8613, 'learning_rate': 2.6925173121313157e-05, 'epoch': 5.64}
+{'loss': 1.8443, 'learning_rate': 2.6685207745575787e-05, 'epoch': 5.77}
+{'loss': 1.8347, 'learning_rate': 2.644524236983842e-05, 'epoch': 5.9}
+{'loss': 1.8149, 'learning_rate': 2.6204796101564505e-05, 'epoch': 6.03}
+{'loss': 1.7894, 'learning_rate': 2.5964830725827138e-05, 'epoch': 6.16}
+{'loss': 1.7762, 'learning_rate': 2.572438445755322e-05, 'epoch': 6.28}
+{'loss': 1.7744, 'learning_rate': 2.5483938189279303e-05, 'epoch': 6.41}
+{'loss': 1.7812, 'learning_rate': 2.5243491921005387e-05, 'epoch': 6.54}
+{'loss': 1.7582, 'learning_rate': 2.500304565273147e-05, 'epoch': 6.67}
+{'loss': 1.751, 'learning_rate': 2.4762599384457555e-05, 'epoch': 6.8}
+{'loss': 1.7639, 'learning_rate': 2.4522153116183635e-05, 'epoch': 6.92}
+{'loss': 1.717, 'learning_rate': 2.4281706847909723e-05, 'epoch': 7.05}
+{'loss': 1.7172, 'learning_rate': 2.4041741472172353e-05, 'epoch': 7.18}
+{'loss': 1.6984, 'learning_rate': 2.3801295203898437e-05, 'epoch': 7.31}
+{'loss': 1.7215, 'learning_rate': 2.3560848935624517e-05, 'epoch': 7.44}
+{'loss': 1.6912, 'learning_rate': 2.3320402667350605e-05, 'epoch': 7.57}
+{'loss': 1.6908, 'learning_rate': 2.307995639907669e-05, 'epoch': 7.69}
+{'loss': 1.6969, 'learning_rate': 2.283951013080277e-05, 'epoch': 7.82}
