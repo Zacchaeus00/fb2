@@ -1,9 +1,11 @@
 import argparse
 import shutil
 import os
+import datetime
 
 import torch
 from transformers import AutoModelForMaskedLM, TrainingArguments, Trainer, AutoTokenizer, DataCollatorForWholeWordMask
+from torch.utils.checkpoint import checkpoint
 
 from data_utils import PretrainDataset
 from utils import save_json
@@ -23,10 +25,13 @@ def parse_args_pretrain():
     arg('--max_len', type=int, default=1024)
     arg('--gradient_checkpointing', action="store_true", required=False)
     arg('--mlm_prob', type=float, default=0.15)
+    arg('--gradient_checkpointing', action="store_true", required=False)
     return parser.parse_args()
 
 
 cfg = parse_args_pretrain()
+print(datetime.datetime.now())
+print(cfg)
 args = TrainingArguments(
     output_dir=f"../ckpt/pretrain0/exp{cfg.exp}/tmp",
     save_strategy="epoch",
@@ -44,6 +49,8 @@ args = TrainingArguments(
     seed=cfg.seed,
 )
 model = AutoModelForMaskedLM.from_pretrained(cfg.ckpt)
+if cfg.gradient_checkpointing:
+    model.gradient_checkpointing_enable()
 tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
 dataset = PretrainDataset('../data/feedback-prize-2021/train', tokenizer, cfg.max_len)
 print(f"n_train={len(dataset)}")
