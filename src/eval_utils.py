@@ -10,6 +10,11 @@ def get_score(logits, labels):
     probs = np.clip(probs, 1e-15, 1 - 1e-15)
     return log_loss(labels, probs, labels=[0, 1, 2])
 
+def get_score_pt(logits, labels):
+    logits = torch.tensor(logits, requires_grad=False)
+    labels = torch.tensor(labels, requires_grad=False)
+    return torch.nn.functional.cross_entropy(logits, labels).item()
+
 def eval_token_cls_model(model, samples, device="cuda"):
     model = model.to(device)
     model.eval()
