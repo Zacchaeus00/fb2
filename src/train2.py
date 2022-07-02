@@ -11,7 +11,7 @@ from transformers import AutoTokenizer, AutoModelForTokenClassification, Trainin
 
 from data_utils import FB2Dataset, prepare_data_token_cls
 from eval_utils import eval_token_cls_model
-from utils import seed_everything, save_json, get_cv
+from utils import seed_everything, save_json, get_cv, get_oof
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
@@ -29,6 +29,7 @@ def parse_args_train():
     arg('--exp', required=True, type=int)
     arg('--gradient_checkpointing', action="store_true", required=False)
     arg('--use_pretrained', type=str, default='')
+    arg('--only_infer', action="store_true", required=False)
     return parser.parse_args()
 
 
@@ -51,40 +52,45 @@ if cfg.gradient_checkpointing:
 train_samples = [s for s in samples if s['fold'] != cfg.fold]
 val_samples = [s for s in samples if s['fold'] == cfg.fold]
 print(f"fold {cfg.fold}: n_train={len(train_samples)}, n_val={len(val_samples)}")
-args = TrainingArguments(
-    output_dir=f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}",
-    save_strategy="steps",
-    evaluation_strategy="steps",
-    learning_rate=cfg.lr,
-    per_device_train_batch_size=cfg.batch_size,
-    per_device_eval_batch_size=8,
-    num_train_epochs=cfg.epochs,
-    weight_decay=cfg.weight_decay,
-    warmup_ratio=0.2,
-    fp16=True,
-    report_to='none',
-    dataloader_num_workers=4,
-    load_best_model_at_end=True,
-    group_by_length=True,
-    save_total_limit=1,
-    seed=cfg.seed,
-    logging_steps=1000,
-    save_steps=1000,
-    eval_steps=1000,
-)
-trainer = Trainer(
-    model,
-    args,
-    train_dataset=FB2Dataset(train_samples),
-    eval_dataset=FB2Dataset(val_samples),
-    tokenizer=tokenizer,
-    data_collator=DataCollatorForTokenClassification(tokenizer),
-)
-trainer.train()
-score = eval_token_cls_model(model, val_samples)
+output_dir = f"../ckpt/train2/exp{cfg.exp}/"
+if not cfg.only_infer:
+    args = TrainingArguments(
+        output_dir=os.path.join(output_dir, f"fold{cfg.fold}"),
+        save_strategy="steps",
+        evaluation_strategy="steps",
+        learning_rate=cfg.lr,
+        per_device_train_batch_size=cfg.batch_size,
+        per_device_eval_batch_size=8,
+        num_train_epochs=cfg.epochs,
+        weight_decay=cfg.weight_decay,
+        warmup_ratio=0.2,
+        fp16=True,
+        report_to='none',
+        dataloader_num_workers=4,
+        load_best_model_at_end=True,
+        group_by_length=True,
+        save_total_limit=1,
+        seed=cfg.seed,
+        logging_steps=1000,
+        save_steps=1000,
+        eval_steps=1000,
+    )
+    trainer = Trainer(
+        model,
+        args,
+        train_dataset=FB2Dataset(train_samples),
+        eval_dataset=FB2Dataset(val_samples),
+        tokenizer=tokenizer,
+        data_collator=DataCollatorForTokenClassification(tokenizer),
+    )
+    trainer.train()
+    torch.save(model.state_dict(), os.path.join(output_dir, f"fold{cfg.fold}.pt"))
+    shutil.rmtree(os.path.join(output_dir, f"fold{cfg.fold}"))
+else:
+    model.load_state_dict(os.path.join(output_dir, f"fold{cfg.fold}.pt"))
+score, oof_df = eval_token_cls_model(model, val_samples)
+oof_df.to_pickle(os.path.join(output_dir, f"fold{cfg.fold}_oof.gz"))
 print(f"fold {cfg.fold}: score={score}")
-
-torch.save(model.state_dict(), f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}.pt")
-shutil.rmtree(f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}")
-save_json({**vars(cfg), 'score': score}, f"../ckpt/train2/exp{cfg.exp}/fold{cfg.fold}.json")
-get_cv(f"../ckpt/train2/exp{cfg.exp}/")
+save_json({**vars(cfg), 'score': score}, os.path.join(output_dir, f"fold{cfg.fold}.json"))
+get_cv(output_dir)
+get_oof(output_dir)
