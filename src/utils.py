@@ -52,10 +52,10 @@ def get_oof(directory):
             return
         dfs.append(pd.read_pickle(path))
     assert len(dfs) == 5, len(dfs)
-    for fold in range(5):
-        path = os.path.join(directory, f'fold{fold}_oof.gz')
-        os.remove(path)
     df = pd.concat(dfs).reset_index(drop=True)
     path = os.path.join(directory, 'oof.gz')
     df.to_pickle(path)
+    for fold in range(5):
+        path = os.path.join(directory, f'fold{fold}_oof.gz')
+        os.remove(path)
     print(f"*** OOF saved to {path} ***")
