@@ -52,7 +52,7 @@ if cfg.gradient_checkpointing:
 train_samples = [s for s in samples if s['fold'] != cfg.fold]
 val_samples = [s for s in samples if s['fold'] == cfg.fold]
 print(f"fold {cfg.fold}: n_train={len(train_samples)}, n_val={len(val_samples)}")
-output_dir = f"../ckpt/train2/exp{cfg.exp}/"
+output_dir = f"../ckpt/{os.path.basename(__file__).split('.')[0]}/exp{cfg.exp}/"
 if not cfg.only_infer:
     args = TrainingArguments(
         output_dir=os.path.join(output_dir, f"fold{cfg.fold}"),
