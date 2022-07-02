@@ -87,7 +87,7 @@ if not cfg.only_infer:
     torch.save(model.state_dict(), os.path.join(output_dir, f"fold{cfg.fold}.pt"))
     shutil.rmtree(os.path.join(output_dir, f"fold{cfg.fold}"))
 else:
-    model.load_state_dict(os.path.join(output_dir, f"fold{cfg.fold}.pt"))
+    model.load_state_dict(torch.load(os.path.join(output_dir, f"fold{cfg.fold}.pt")))
 score, oof_df = eval_token_cls_model(model, val_samples)
 oof_df.to_pickle(os.path.join(output_dir, f"fold{cfg.fold}_oof.gz"))
 print(f"fold {cfg.fold}: score={score}")
