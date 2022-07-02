@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import torch
 from scipy.special import softmax
 from sklearn.metrics import log_loss
@@ -21,4 +22,7 @@ def eval_token_cls_model(model, samples, device="cuda"):
     predictions = np.vstack(predictions)
     probs = softmax(predictions, axis=1)
     probs = np.clip(probs, 1e-15, 1 - 1e-15)
-    return log_loss(labels, probs, labels=[0, 1, 2])
+
+    oof_df = pd.DataFrame({'discourse_id': [s['discourse_id'] for s in samples],
+                           'logits': [predictions[i] for i in range(len(samples))]})
+    return log_loss(labels, probs, labels=[0, 1, 2]), oof_df

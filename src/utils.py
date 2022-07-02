@@ -4,6 +4,7 @@ import pickle
 import random
 
 import numpy as np
+import pandas as pd
 import torch
 
 
@@ -41,3 +42,20 @@ def get_cv(directory):
     with open(os.path.join(directory, 'cv.txt'), 'w') as f:
         f.write(str(cv))
     print(f"*** CV={cv} is saved to {directory} ***")
+
+
+def get_oof(directory):
+    dfs = []
+    for fold in range(5):
+        path = os.path.join(directory, f'fold{fold}_oof.gz')
+        if not os.path.isfile(path):
+            return
+        dfs.append(pd.read_pickle(path))
+    assert len(dfs) == 5, len(dfs)
+    for fold in range(5):
+        path = os.path.join(directory, f'fold{fold}_oof.gz')
+        os.remove(path)
+    df = pd.concat(dfs).reset_index(drop=True)
+    path = os.path.join(directory, 'oof.gz')
+    df.to_pickle(path)
+    print(f"*** OOF saved to {path} ***")
