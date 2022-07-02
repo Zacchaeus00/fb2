@@ -5,15 +5,18 @@ from scipy.special import softmax
 from sklearn.metrics import log_loss
 from tqdm import tqdm
 
+
 def get_score(logits, labels):
     probs = softmax(logits, axis=1)
     probs = np.clip(probs, 1e-15, 1 - 1e-15)
     return log_loss(labels, probs, labels=[0, 1, 2])
 
+
 def get_score_pt(logits, labels):
     logits = torch.tensor(logits, requires_grad=False)
     labels = torch.tensor(labels, requires_grad=False)
     return torch.nn.functional.cross_entropy(logits, labels).item()
+
 
 def eval_token_cls_model(model, samples, device="cuda"):
     model = model.to(device)
@@ -32,7 +35,7 @@ def eval_token_cls_model(model, samples, device="cuda"):
     dids = []
     for s in samples:
         dids += s['discourse_ids']
-    assert(len(dids) == predictions.shape[0]), [len(dids), predictions.shape[0]]
+    assert (len(dids) == predictions.shape[0]), [len(dids), predictions.shape[0]]
     oof_df = pd.DataFrame({'discourse_id': dids,
                            'logits': [predictions[i] for i in range(len(dids))]})
     return get_score(predictions, labels), oof_df
