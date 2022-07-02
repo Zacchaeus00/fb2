@@ -55,7 +55,7 @@ class Model3(torch.nn.Module):
             self.classifier.bias.data.zero_()
 
     def forward(self, input_ids=None, attention_mask=None, labels=None):
-        outputs = self.backbone(input_ids)
+        outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
         sequence_output = outputs[0]
         logits1 = self.classifier(self.dropout1(sequence_output))
         logits2 = self.classifier(self.dropout2(sequence_output))
