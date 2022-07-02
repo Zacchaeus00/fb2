@@ -1,4 +1,7 @@
 import torch
+from transformers import AutoModel
+from transformers.modeling_outputs import TokenClassifierOutput
+from transformers.models.deberta.modeling_deberta import StableDropout
 from transformers.trainer_pt_utils import get_parameter_names
 
 
@@ -34,3 +37,30 @@ def reinit_layers(model, n=0):
 # https://github.com/huggingface/transformers/blob/v4.20.1/src/transformers/trainer.py#L209
 def get_optimizer_grouped_parameters(model, n=0):
     raise NotImplementedError
+
+
+class Model3(torch.nn.Module):
+    def __init__(self, ckpt):
+        super().__init__()
+        self.backbone = AutoModel.from_pretrained(ckpt)
+        self.dropout1 = StableDropout(0.1)
+        self.dropout2 = StableDropout(0.2)
+        self.dropout3 = StableDropout(0.3)
+        self.dropout4 = StableDropout(0.4)
+        self.dropout5 = StableDropout(0.5)
+        self.classifier = torch.nn.Linear(self.backbone.config.hidden_size, 3)
+
+    def forward(self, **kwargs):
+        outputs = self.backbone(input_ids=kwargs['input_ids'])
+        sequence_output = outputs[0]
+        logits1 = self.classifier(self.dropout1(sequence_output))
+        logits2 = self.classifier(self.dropout2(sequence_output))
+        logits3 = self.classifier(self.dropout3(sequence_output))
+        logits4 = self.classifier(self.dropout4(sequence_output))
+        logits5 = self.classifier(self.dropout5(sequence_output))
+        logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
+        loss = None
+        if kwargs['labels'] is not None:
+            loss_fct = torch.nn.CrossEntropyLoss()
+            loss = loss_fct(logits.view(-1, self.num_labels), kwargs['labels'].view(-1))
+        return TokenClassifierOutput(loss=loss, logits=logits)
