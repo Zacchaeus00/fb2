@@ -40,14 +40,15 @@ def get_optimizer_grouped_parameters(model, n=0):
 
 
 class Model3(torch.nn.Module):
-    def __init__(self, ckpt):
+    def __init__(self, ckpt, use_stable_dropout=False):
         super().__init__()
         self.backbone = AutoModel.from_pretrained(ckpt)
-        self.dropout1 = StableDropout(0.1)
-        self.dropout2 = StableDropout(0.2)
-        self.dropout3 = StableDropout(0.3)
-        self.dropout4 = StableDropout(0.4)
-        self.dropout5 = StableDropout(0.5)
+        dropout_class = StableDropout if use_stable_dropout else torch.nn.Dropout
+        self.dropout1 = dropout_class(0.1)
+        self.dropout2 = dropout_class(0.2)
+        self.dropout3 = dropout_class(0.3)
+        self.dropout4 = dropout_class(0.4)
+        self.dropout5 = dropout_class(0.5)
         self.classifier = torch.nn.Linear(self.backbone.config.hidden_size, 3)
 
     def forward(self, input_ids=None, attention_mask=None, labels=None):
