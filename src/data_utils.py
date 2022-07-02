@@ -94,17 +94,18 @@ def prepare_data_token_cls(essay, train, tokenizer):
         idxs = []
         labels = []
         eidx = 0
+        dids = []
         for _, row in df.iterrows():
             dtype = row['discourse_type']
             dtext = row['discourse_text_processed']
-            did = row['discourse_id']
+            dids.append(row['discourse_id'])
             label = LABEL_MAPPING[row['discourse_effectiveness']]
             text, sidx, eidx = insert_tag(text, dtext, dtype, start=eidx)
             idxs.append([sidx, eidx])
             labels.append(label)
         assert (idxs == list(sorted(idxs))), idxs
         assert df['kfold'].nunique() == 1, df['kfold'].nunique()
-        samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid, 'discourse_id': did})
+        samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid, 'discourse_ids': dids})
     for sample in tqdm(samples):
         enc = tokenizer(sample['text'], return_offsets_mapping=True, add_special_tokens=False)
         seq_len = len(enc['input_ids'])
