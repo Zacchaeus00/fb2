@@ -23,7 +23,7 @@ cd /gpfsnyu/scratch/yw3642/fb2/src
 echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
-python -u train3.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-base \
+python -u train4.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-base \
 --epochs 10 --batch_size 2 --lr 2e-5 --lr_head 1e-3 --weight_decay 0 --seed 42 \
 --exp 1 --fold 3 --use_pretrained /gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp4/pretrained_model.pt \
 --use_stable_dropout
