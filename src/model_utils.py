@@ -50,7 +50,7 @@ class Model3(torch.nn.Module):
         self.dropout5 = StableDropout(0.5)
         self.classifier = torch.nn.Linear(self.backbone.config.hidden_size, 3)
 
-    def forward(self, input_ids, labels=None):
+    def forward(self, input_ids=None, attention_mask=None, labels=None):
         outputs = self.backbone(input_ids)
         sequence_output = outputs[0]
         logits1 = self.classifier(self.dropout1(sequence_output))
