@@ -40,7 +40,7 @@ def get_optimizer_grouped_parameters(model, n=0):
 
 
 class Model3(torch.nn.Module):
-    def __init__(self, ckpt, use_stable_dropout=False):
+    def __init__(self, ckpt, use_stable_dropout=False, normal_init=False):
         super().__init__()
         self.backbone = AutoModel.from_pretrained(ckpt)
         dropout_class = StableDropout if use_stable_dropout else torch.nn.Dropout
@@ -50,6 +50,9 @@ class Model3(torch.nn.Module):
         self.dropout4 = dropout_class(0.4)
         self.dropout5 = dropout_class(0.5)
         self.classifier = torch.nn.Linear(self.backbone.config.hidden_size, 3)
+        if normal_init:
+            self.classifier.weight.data.normal_(mean=0.0, std=self.backbone.config.initializer_range)
+            self.classifier.bias.data.zero_()
 
     def forward(self, input_ids=None, attention_mask=None, labels=None):
         outputs = self.backbone(input_ids)

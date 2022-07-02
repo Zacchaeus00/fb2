@@ -32,6 +32,7 @@ def parse_args_train():
     arg('--use_pretrained', type=str, default='')
     arg('--only_infer', action="store_true", required=False)
     arg('--use_stable_dropout', action="store_true", required=False)
+    arg('--normal_init', action="store_true", required=False)
     return parser.parse_args()
 
 
@@ -45,7 +46,7 @@ essay = pd.read_csv('../data/essay_processed.csv')
 essay = essay.set_index('essay_id').squeeze()
 train = pd.read_csv('../data/train_processed.csv')
 samples = prepare_data_token_cls(essay, train, tokenizer)
-model = Model3(cfg.ckpt, use_stable_dropout=cfg.use_stable_dropout)
+model = Model3(cfg.ckpt, use_stable_dropout=cfg.use_stable_dropout, normal_init=cfg.normal_init)
 if cfg.use_pretrained:
     model.backbone.load_state_dict(torch.load(cfg.use_pretrained), strict=False)
 if cfg.gradient_checkpointing:
