@@ -121,7 +121,7 @@ if not cfg.only_infer:
         data_collator=DataCollatorForTokenClassification(tokenizer),
         optimizers=[optimizer, scheduler]
     )
-    try_train(trainer)
+    try_train(trainer, 3)
     torch.save(model.state_dict(), os.path.join(output_dir, f"fold{cfg.fold}.pt"))
     shutil.rmtree(os.path.join(output_dir, f"fold{cfg.fold}"))
 else:
