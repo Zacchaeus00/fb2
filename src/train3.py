@@ -7,11 +7,11 @@ import datetime
 import pandas as pd
 import torch
 from torch.utils.checkpoint import checkpoint
-from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
+from transformers import AutoTokenizer, TrainingArguments, Trainer, DataCollatorForTokenClassification
 
 from data_utils import FB2Dataset, prepare_data_token_cls
 from eval_utils import eval_token_cls_model
-from model_utils import Model3
+from model_utils import Model3, strip_state_dict
 from utils import seed_everything, save_json, get_cv, get_oof
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
@@ -48,7 +48,7 @@ train = pd.read_csv('../data/train_processed.csv')
 samples = prepare_data_token_cls(essay, train, tokenizer)
 model = Model3(cfg.ckpt, use_stable_dropout=cfg.use_stable_dropout, normal_init=cfg.normal_init)
 if cfg.use_pretrained:
-    model.backbone.load_state_dict(torch.load(cfg.use_pretrained), strict=False)
+    model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=True)
 if cfg.gradient_checkpointing:
     model.gradient_checkpointing_enable()
 

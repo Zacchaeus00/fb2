@@ -68,3 +68,11 @@ class Model3(torch.nn.Module):
             loss_fct = torch.nn.CrossEntropyLoss()
             loss = loss_fct(logits.view(-1, 3), labels.view(-1))
         return TokenClassifierOutput(loss=loss, logits=logits)
+
+
+def strip_state_dict(state_dict, ckpt):
+    if 'deberta' in ckpt:
+        prefix = 'deberta.'
+        return {k[len(prefix):]: v for k, v in state_dict.items() if k.startswith(prefix)}
+    else:
+        raise NotImplementedError
