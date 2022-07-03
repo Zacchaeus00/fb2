@@ -1,0 +1,51 @@
+Sun Jul  3 20:16:09 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.80       Driver Version: 460.80       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 3090    Off  | 00000000:45:00.0 Off |                  N/A |
+| 60%   49C    P8    20W / 350W |      0MiB / 24268MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+GPU checked
+2022-07-03 20:18:13.441988
+Namespace(batch_size=2, ckpt='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-base', epochs=10, exp=0, fold=4, gradient_checkpointing=False, lr=2e-05, lr_head=0.001, normal_init=False, only_infer=False, seed=42, use_pretrained='/gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp4/pretrained_model.pt', use_stable_dropout=False, weight_decay=0.0)
+fold 4: n_train=3355, n_val=836
+{'loss': 0.9216, 'learning_rate': 5.919523099850969e-06, 'epoch': 0.6}
+{'eval_loss': 0.7576393485069275, 'eval_runtime': 22.0074, 'eval_samples_per_second': 37.987, 'eval_steps_per_second': 4.771, 'epoch': 0.6}
+{'loss': 0.7452, 'learning_rate': 1.1880774962742176e-05, 'epoch': 1.19}
+{'eval_loss': 0.7479894757270813, 'eval_runtime': 22.1588, 'eval_samples_per_second': 37.728, 'eval_steps_per_second': 4.739, 'epoch': 1.19}
+{'loss': 0.7392, 'learning_rate': 1.7842026825633386e-05, 'epoch': 1.79}
+{'eval_loss': 0.6936810612678528, 'eval_runtime': 21.7737, 'eval_samples_per_second': 38.395, 'eval_steps_per_second': 4.822, 'epoch': 1.79}
+{'loss': 0.7096, 'learning_rate': 1.9049180327868855e-05, 'epoch': 2.38}
+{'eval_loss': 0.7308816313743591, 'eval_runtime': 21.9474, 'eval_samples_per_second': 38.091, 'eval_steps_per_second': 4.784, 'epoch': 2.38}
+{'loss': 0.6604, 'learning_rate': 1.7560357675111776e-05, 'epoch': 2.98}
+{'eval_loss': 0.8491564393043518, 'eval_runtime': 22.5832, 'eval_samples_per_second': 37.019, 'eval_steps_per_second': 4.649, 'epoch': 2.98}
+{'loss': 0.5516, 'learning_rate': 1.6071535022354696e-05, 'epoch': 3.58}
+{'eval_loss': 0.7940129637718201, 'eval_runtime': 22.0626, 'eval_samples_per_second': 37.892, 'eval_steps_per_second': 4.759, 'epoch': 3.58}
+{'loss': 0.5125, 'learning_rate': 1.4581222056631895e-05, 'epoch': 4.17}
+{'eval_loss': 0.8263219594955444, 'eval_runtime': 22.3152, 'eval_samples_per_second': 37.463, 'eval_steps_per_second': 4.705, 'epoch': 4.17}
+{'loss': 0.438, 'learning_rate': 1.3090909090909092e-05, 'epoch': 4.77}
+{'eval_loss': 0.76897132396698, 'eval_runtime': 22.509, 'eval_samples_per_second': 37.141, 'eval_steps_per_second': 4.665, 'epoch': 4.77}
+{'train_runtime': 1582.2055, 'train_samples_per_second': 21.205, 'train_steps_per_second': 10.605, 'train_loss': 0.6597564201354981, 'epoch': 4.77}
+fold 4: score=0.6965599363716364
+*** CV=0.6730554737753226 is saved to ../ckpt/train4/exp0/ ***
+*** OOF saved to ../ckpt/train4/exp0/fold4_oof.gz ***
+FINISH

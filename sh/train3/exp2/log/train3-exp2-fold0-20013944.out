@@ -1,0 +1,49 @@
+Sun Jul  3 19:08:59 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.80       Driver Version: 460.80       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 3090    Off  | 00000000:41:00.0 Off |                  N/A |
+| 49%   44C    P8    19W / 350W |      0MiB / 24268MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+GPU checked
+2022-07-03 19:11:55.779861
+Namespace(batch_size=2, ckpt='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-base', epochs=10, exp=2, fold=0, gradient_checkpointing=False, lr=2e-05, normal_init=True, only_infer=False, seed=42, use_pretrained='/gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp4/pretrained_model.pt', use_stable_dropout=True, weight_decay=0.0)
+fold 0: n_train=3353, n_val=838
+{'loss': 0.9028, 'learning_rate': 5.9212880143112705e-06, 'epoch': 0.6}
+{'eval_loss': 0.8618000745773315, 'eval_runtime': 23.4495, 'eval_samples_per_second': 35.736, 'eval_steps_per_second': 4.478, 'epoch': 0.6}
+{'loss': 0.7721, 'learning_rate': 1.18783542039356e-05, 'epoch': 1.19}
+{'eval_loss': 0.7466049194335938, 'eval_runtime': 23.751, 'eval_samples_per_second': 35.283, 'eval_steps_per_second': 4.421, 'epoch': 1.19}
+{'loss': 0.7407, 'learning_rate': 1.783542039355993e-05, 'epoch': 1.79}
+{'eval_loss': 0.6705784201622009, 'eval_runtime': 23.5017, 'eval_samples_per_second': 35.657, 'eval_steps_per_second': 4.468, 'epoch': 1.79}
+{'loss': 0.6794, 'learning_rate': 1.9050387596899226e-05, 'epoch': 2.39}
+{'eval_loss': 0.7051491141319275, 'eval_runtime': 23.5464, 'eval_samples_per_second': 35.589, 'eval_steps_per_second': 4.459, 'epoch': 2.39}
+{'loss': 0.6538, 'learning_rate': 1.7559630292188432e-05, 'epoch': 2.98}
+{'eval_loss': 0.6767988204956055, 'eval_runtime': 23.6625, 'eval_samples_per_second': 35.415, 'eval_steps_per_second': 4.437, 'epoch': 2.98}
+{'loss': 0.5742, 'learning_rate': 1.606887298747764e-05, 'epoch': 3.58}
+{'eval_loss': 0.6743003129959106, 'eval_runtime': 23.415, 'eval_samples_per_second': 35.789, 'eval_steps_per_second': 4.484, 'epoch': 3.58}
+{'loss': 0.5373, 'learning_rate': 1.4579606440071556e-05, 'epoch': 4.17}
+{'eval_loss': 0.8507941961288452, 'eval_runtime': 23.5122, 'eval_samples_per_second': 35.641, 'eval_steps_per_second': 4.466, 'epoch': 4.17}
+{'loss': 0.4599, 'learning_rate': 1.3088849135360764e-05, 'epoch': 4.77}
+{'eval_loss': 0.7296481132507324, 'eval_runtime': 23.4782, 'eval_samples_per_second': 35.693, 'eval_steps_per_second': 4.472, 'epoch': 4.77}
+{'train_runtime': 1639.5025, 'train_samples_per_second': 20.451, 'train_steps_per_second': 10.229, 'train_loss': 0.6650153579711914, 'epoch': 4.77}
+fold 0: score=0.6690864648427112
+FINISH

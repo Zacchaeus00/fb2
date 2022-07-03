@@ -1,0 +1,45 @@
+Sun Jul  3 21:30:49 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.80       Driver Version: 460.80       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 3090    Off  | 00000000:42:00.0 Off |                  N/A |
+| 39%   41C    P8    24W / 350W |      0MiB / 24268MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+2022-07-03 21:32:45.557495
+Namespace(batch_size=4, ckpt='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-large', epochs=30, exp=6, gradient_checkpointing=True, lr=1e-05, max_len=1024, mlm_prob=0.3, seed=14, weight_decay=0.0)
+n_train=15594
+{'loss': 10.7527, 'learning_rate': 2.1031033598358557e-07, 'epoch': 0.13}
+{'loss': 7.1733, 'learning_rate': 4.240403522270668e-07, 'epoch': 0.26}
+{'loss': 6.8072, 'learning_rate': 6.37770368470548e-07, 'epoch': 0.38}
+{'loss': 6.5603, 'learning_rate': 8.515003847140293e-07, 'epoch': 0.51}
+{'loss': 6.1858, 'learning_rate': 1.0652304009575105e-06, 'epoch': 0.64}
+{'loss': 5.6894, 'learning_rate': 1.2789604172009916e-06, 'epoch': 0.77}
+{'loss': 5.3455, 'learning_rate': 1.492690433444473e-06, 'epoch': 0.9}
+{'loss': 5.0572, 'learning_rate': 1.7064204496879545e-06, 'epoch': 1.03}
+{'loss': 4.808, 'learning_rate': 1.9201504659314356e-06, 'epoch': 1.15}
+{'loss': 4.5839, 'learning_rate': 2.1338804821749167e-06, 'epoch': 1.28}
+{'loss': 4.4062, 'learning_rate': 2.3476104984183982e-06, 'epoch': 1.41}
+{'loss': 4.195, 'learning_rate': 2.5613405146618793e-06, 'epoch': 1.54}
+{'loss': 4.028, 'learning_rate': 2.7750705309053604e-06, 'epoch': 1.67}
+{'loss': 3.8487, 'learning_rate': 2.988800547148842e-06, 'epoch': 1.8}
+{'loss': 3.7088, 'learning_rate': 3.202530563392323e-06, 'epoch': 1.92}
+{'loss': 3.5802, 'learning_rate': 3.4162605796358046e-06, 'epoch': 2.05}
