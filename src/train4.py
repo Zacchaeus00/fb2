@@ -9,7 +9,7 @@ import torch
 from torch.optim import AdamW
 from torch.utils.checkpoint import checkpoint
 from transformers import AutoTokenizer, TrainingArguments, Trainer, \
-    DataCollatorForTokenClassification, get_linear_schedule_with_warmup
+    DataCollatorForTokenClassification, get_linear_schedule_with_warmup, EarlyStoppingCallback
 
 from data_utils import FB2Dataset, prepare_data_token_cls
 from eval_utils import eval_token_cls_model
@@ -120,7 +120,8 @@ if not cfg.only_infer:
         eval_dataset=FB2Dataset(val_samples),
         tokenizer=tokenizer,
         data_collator=DataCollatorForTokenClassification(tokenizer),
-        optimizers=[optimizer, scheduler]
+        optimizers=[optimizer, scheduler],
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=5)],
     )
     trainer.train()
     torch.save(model.state_dict(), os.path.join(output_dir, f"fold{cfg.fold}.pt"))

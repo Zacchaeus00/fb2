@@ -8,7 +8,8 @@ import time
 import pandas as pd
 import torch
 from torch.utils.checkpoint import checkpoint
-from transformers import AutoTokenizer, TrainingArguments, Trainer, DataCollatorForTokenClassification
+from transformers import AutoTokenizer, TrainingArguments, Trainer, DataCollatorForTokenClassification, \
+    EarlyStoppingCallback
 
 from data_utils import FB2Dataset, prepare_data_token_cls
 from eval_utils import eval_token_cls_model
@@ -87,6 +88,7 @@ if not cfg.only_infer:
         eval_dataset=FB2Dataset(val_samples),
         tokenizer=tokenizer,
         data_collator=DataCollatorForTokenClassification(tokenizer),
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=5)],
     )
     trainer.train()
     torch.save(model.state_dict(), os.path.join(output_dir, f"fold{cfg.fold}.pt"))
