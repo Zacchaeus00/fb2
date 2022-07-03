@@ -2,6 +2,7 @@ import json
 import os
 import pickle
 import random
+import time
 
 import numpy as np
 import pandas as pd
@@ -59,3 +60,13 @@ def get_oof(directory):
         path = os.path.join(directory, f'fold{fold}_oof.gz')
         os.remove(path)
     print(f"*** OOF saved to {path} ***")
+
+
+def try_train(trainer, sleep=-1):
+    try:
+        trainer.train()
+    except RuntimeError:
+        print(f"BAD GPU: sleep {sleep} hours.")
+        if sleep != -1:
+            time.sleep(3600 * sleep)
+        exit(1)

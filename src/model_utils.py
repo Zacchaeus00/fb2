@@ -73,6 +73,8 @@ class Model3(torch.nn.Module):
 def strip_state_dict(state_dict, ckpt):
     if 'deberta' in ckpt:
         prefix = 'deberta.'
-        return {k[len(prefix):]: v for k, v in state_dict.items() if k.startswith(prefix)}
+    elif 'roberta' in ckpt:
+        prefix = 'roberta.'
     else:
         raise NotImplementedError
+    return {k[len(prefix):]: v for k, v in state_dict.items() if k.startswith(prefix)}

@@ -14,7 +14,7 @@ from transformers import AutoTokenizer, TrainingArguments, Trainer, \
 from data_utils import FB2Dataset, prepare_data_token_cls
 from eval_utils import eval_token_cls_model
 from model_utils import Model3, strip_state_dict
-from utils import seed_everything, save_json, get_cv, get_oof
+from utils import seed_everything, save_json, get_cv, get_oof, try_train
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
@@ -121,7 +121,7 @@ if not cfg.only_infer:
         data_collator=DataCollatorForTokenClassification(tokenizer),
         optimizers=[optimizer, scheduler]
     )
-    trainer.train()
+    try_train(trainer)
     torch.save(model.state_dict(), os.path.join(output_dir, f"fold{cfg.fold}.pt"))
     shutil.rmtree(os.path.join(output_dir, f"fold{cfg.fold}"))
 else:
