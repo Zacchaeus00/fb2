@@ -7,6 +7,7 @@ import time
 import numpy as np
 import pandas as pd
 import torch
+from pynvml import nvmlInit, nvmlDeviceGetHandleByIndex, nvmlDeviceGetMemoryInfo
 
 
 def seed_everything(seed: int):
@@ -70,3 +71,18 @@ def try_train(trainer, sleep=-1):
         if sleep != -1:
             time.sleep(3600 * sleep)
         exit(1)
+
+
+def check_gpu(th=0.1, sleep=5):
+    nvmlInit()
+    h = nvmlDeviceGetHandleByIndex(0)
+    info = nvmlDeviceGetMemoryInfo(h)
+    pct_used = info.used / info.total
+    if pct_used > 0.1:
+        print("GPU already in use")
+        if sleep != -1:
+            time.sleep(3600 * sleep)
+        exit(1)
+    else:
+        print("GPU checked")
+        return
