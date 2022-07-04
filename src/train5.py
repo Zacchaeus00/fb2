@@ -83,7 +83,8 @@ if not cfg.only_infer:
         val_steps=500,
         adv_lr=cfg.adv_lr,
         adv_eps=cfg.adv_eps,
-        adv_after_epoch=cfg.adv_after_epoch
+        adv_after_epoch=cfg.adv_after_epoch,
+        valid_shuffle=False,
     )
     model.fit(
         train_dataset,
