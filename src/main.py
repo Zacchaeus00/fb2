@@ -198,7 +198,7 @@ class MeanPooling(nn.Module):
 
 
 class FeedbackModel(nn.Module):
-    def __init__(self, model_name, num_train_steps, learning_rate, num_labels, steps_per_epoch):
+    def __init__(self, model_name, num_train_steps, learning_rate, num_labels):
         super().__init__()
         self.learning_rate = learning_rate
         self.model_name = model_name

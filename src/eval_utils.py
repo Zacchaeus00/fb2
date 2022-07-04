@@ -26,7 +26,10 @@ def eval_token_cls_model(model, samples, device="cuda"):
     for sample in tqdm(samples):
         input = torch.tensor(sample['input_ids']).unsqueeze(0).to(device)
         with torch.no_grad():
-            logits = model(input).logits.squeeze()
+            if hasattr(model, 'logits'):
+                logits = model(input).logits.squeeze()
+            else:
+                logits = model(input)[0].squeeze()
         label_idxs = torch.tensor(sample['label_positions'])
         prediction = logits[label_idxs].cpu().detach().numpy()
         predictions.append(prediction)

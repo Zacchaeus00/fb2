@@ -59,7 +59,7 @@ def prepare_data_mp(indir, tokenizer, df, max_len, j=8):
 class FB2Dataset(torch.utils.data.Dataset):
     def __init__(self, samples):
         self.samples = samples
-        self.features = ['input_ids', 'attention_mask', 'token_type_ids', 'label']
+        self.features = ['input_ids', 'attention_mask', 'label', 'labels']
 
     def __getitem__(self, i):
         data = {k: v for k, v in self.samples[i].items() if k in self.features}
