@@ -68,7 +68,7 @@ if not cfg.only_infer:
     es = EarlyStopping(
         monitor="valid_loss",
         model_path=os.path.join(output_dir, f"fold{cfg.fold}.pt"),
-        patience=5,
+        patience=10,
         mode="min",
         delta=0.001,
         save_weights_only=True,
