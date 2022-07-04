@@ -36,6 +36,7 @@ def parse_args_train():
     arg('--adv_eps', type=float, default=0.01)
     arg('--adv_after_epoch', type=float, default=0)
     arg('--only_infer', action="store_true", required=False)
+    arg('--clip_grad_norm', type=float, default=10)
     return parser.parse_args()
 
 
@@ -85,6 +86,7 @@ if not cfg.only_infer:
         adv_eps=cfg.adv_eps,
         adv_after_epoch=cfg.adv_after_epoch,
         valid_shuffle=False,
+        clip_grad_norm=cfg.clip_grad_norm,
     )
     model.fit(
         train_dataset,
