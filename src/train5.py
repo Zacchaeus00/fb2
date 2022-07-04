@@ -37,6 +37,7 @@ def parse_args_train():
     arg('--adv_after_epoch', type=float, default=0)
     arg('--only_infer', action="store_true", required=False)
     arg('--clip_grad_norm', type=float, default=10)
+    arg('--patience', type=int, default=10)
     return parser.parse_args()
 
 
@@ -69,7 +70,7 @@ if not cfg.only_infer:
     es = EarlyStopping(
         monitor="valid_loss",
         model_path=os.path.join(output_dir, f"fold{cfg.fold}.pt"),
-        patience=10,
+        patience=cfg.patience,
         mode="min",
         delta=0.001,
         save_weights_only=True,
