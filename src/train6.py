@@ -1,4 +1,4 @@
-# train3 + tez AWP
+# train5 + RAdam
 import argparse
 import os
 import shutil
@@ -12,7 +12,7 @@ from transformers import AutoTokenizer, DataCollatorForTokenClassification
 
 from data_utils import FB2Dataset, prepare_data_token_cls
 from eval_utils import eval_token_cls_model
-from model_utils import Model5, strip_state_dict
+from model_utils import Model6, strip_state_dict
 from utils import seed_everything, save_json, get_cv, get_oof, check_gpu
 from tez import Tez, TezConfig
 from tez.callbacks import EarlyStopping
@@ -58,7 +58,7 @@ print(f"fold {cfg.fold}: n_train={len(train_dataset)}, n_val={len(val_dataset)}"
 output_dir = f"../ckpt/{os.path.basename(__file__).split('.')[0]}/exp{cfg.exp}/"
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
-model = Model5(cfg.ckpt,
+model = Model6(cfg.ckpt,
                num_train_steps=int(len(train_dataset) / cfg.batch_size * cfg.epochs),
                learning_rate=cfg.lr)
 if cfg.use_pretrained:
