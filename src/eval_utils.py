@@ -18,7 +18,7 @@ def get_score_pt(logits, labels):
     return torch.nn.functional.cross_entropy(logits, labels).item()
 
 
-def eval_token_cls_model(model, samples, device="cuda"):
+def eval_token_cls_model(model, samples, device="cuda", pooling='cls'):
     model = model.to(device)
     model.eval()
     predictions = []
@@ -30,8 +30,16 @@ def eval_token_cls_model(model, samples, device="cuda"):
                 logits = model(input).logits.squeeze()
             else:
                 logits = model(input)[0].squeeze()
-        label_idxs = torch.tensor(sample['label_positions'])
-        prediction = logits[label_idxs].cpu().detach().numpy()
+        if pooling == 'mean':
+            prediction = np.zeros((len(sample['label_positions']),3))
+            for i, pos in enumerate(sample['label_positions']):
+                pos = np.array(pos)
+                prediction[i, :] = np.mean(logits[pos].cpu().detach().numpy(), axis=0)
+        elif pooling == 'cls':
+            label_idxs = torch.tensor(sample['label_positions'])
+            prediction = logits[label_idxs].cpu().detach().numpy()
+        else:
+            raise NotImplementedError
         predictions.append(prediction)
         labels += sample['raw_labels']
     predictions = np.vstack(predictions)

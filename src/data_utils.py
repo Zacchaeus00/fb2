@@ -86,7 +86,7 @@ def insert_tag(text, dtext, dtype, start=0):
     return text, sidx, eidx
 
 
-def prepare_data_token_cls(essay, train, tokenizer):
+def prepare_data_token_cls(essay, train, tokenizer, pooling='cls'):
     samples = []
     for eid in tqdm(essay.index):
         text = essay[eid]
@@ -110,30 +110,40 @@ def prepare_data_token_cls(essay, train, tokenizer):
         enc = tokenizer(sample['text'], return_offsets_mapping=True, add_special_tokens=False)
         seq_len = len(enc['input_ids'])
         label = [-100 for _ in range(seq_len)]
+
         # 1. mean
-        # for i in range(seq_len):
-        #     for j, (s, e) in enumerate(sample['spans']):
-        #         if enc['offset_mapping'][i][0] >= s and enc['offset_mapping'][i][0] < e and e > s:
-        #             label[i] = sample['raw_labels'][j]
-        #             break
+        if pooling == 'mean':
+            label_positions = [[] for _ in range(len(sample['spans']))]
+            for i in range(seq_len):
+                for j, (s, e) in enumerate(sample['spans']):
+                    if s <= enc['offset_mapping'][i][0] < e and enc['offset_mapping'][i][1] > enc['offset_mapping'][i][0]:
+                        label[i] = sample['raw_labels'][j]
+                        label_positions[j].append(i)
+                        break
 
         # 2. cls
-        j = 0
-        label_positions = []
-        for i in range(seq_len):
-            if j == len(sample['raw_labels']):
-                break
-            s, e = sample['spans'][j]
-            if enc['offset_mapping'][i][0] >= s and e > s:
-                label[i] = sample['raw_labels'][j]
-                j += 1
-                label_positions.append(i)
+        elif pooling == 'cls':
+            label_positions = []
+            j = 0
+            for i in range(seq_len):
+                if j == len(sample['raw_labels']):
+                    break
+                s, e = sample['spans'][j]
+                if enc['offset_mapping'][i][0] >= s and e > s:
+                    label[i] = sample['raw_labels'][j]
+                    j += 1
+                    label_positions.append(i)
+        else:
+            raise NotImplementedError
         sample['label'] = label
         sample['label_positions'] = label_positions
         for k, v in enc.items():
             sample[k] = v
         nlabel_assigned = len([l for l in sample['label'] if l != -100])
-        assert (nlabel_assigned == len(sample['raw_labels'])), f"{nlabel_assigned}, {len(sample['raw_labels'])}"
+        assert len(sample['raw_labels']) == len(sample['label_positions'])
+        assert len(sample['spans']) == len(sample['label_positions'])
+        if pooling == 'cls':
+            assert (nlabel_assigned == len(sample['raw_labels'])), f"{nlabel_assigned}, {len(sample['raw_labels'])}"
     return samples
 
 
@@ -153,4 +163,12 @@ class PretrainDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.texts)
 
-
+if __name__ == '__main__':
+    import pandas as pd
+    from transformers import AutoTokenizer
+    tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-v3-base')
+    essay = pd.read_csv('../data/essay_processed.csv')
+    essay = essay.set_index('essay_id').squeeze()
+    train = pd.read_csv('../data/train_processed.csv')
+    samples = prepare_data_token_cls(essay, train, tokenizer, pooling='mean')
+    print(samples[0])
