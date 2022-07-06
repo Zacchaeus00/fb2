@@ -122,7 +122,7 @@ class Model5(torch.nn.Module):
 
 
 class Model6(torch.nn.Module):
-    def __init__(self, ckpt, num_train_steps, learning_rate):
+    def __init__(self, ckpt, num_train_steps, learning_rate, reduction='mean'):
         super().__init__()
         self.backbone = AutoModel.from_pretrained(ckpt)
         self.dropout1 = StableDropout(0.1)
@@ -133,7 +133,7 @@ class Model6(torch.nn.Module):
         self.classifier = torch.nn.Linear(self.backbone.config.hidden_size, 3)
         self.num_train_steps = num_train_steps
         self.learning_rate = learning_rate
-
+        self.loss_fct = torch.nn.CrossEntropyLoss(reduction=reduction)
 
     def forward(self, input_ids=None, attention_mask=None, labels=None):
         outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
@@ -146,8 +146,7 @@ class Model6(torch.nn.Module):
         logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
         loss = None
         if labels is not None:
-            loss_fct = torch.nn.CrossEntropyLoss()
-            loss = loss_fct(logits.view(-1, 3), labels.view(-1))
+            loss = self.loss_fct(logits.view(-1, 3), labels.view(-1))
         return logits, loss, {}
 
     def optimizer_scheduler(self):

@@ -39,6 +39,7 @@ def parse_args_train():
     arg('--clip_grad_norm', type=float, default=10)
     arg('--patience', type=int, default=10)
     arg('--pooling', type=str, default='cls')
+    arg('--reduction', type=str, default='mean')
     return parser.parse_args()
 
 
