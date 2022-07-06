@@ -62,7 +62,8 @@ Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 model = Model6(cfg.ckpt,
                num_train_steps=int(len(train_dataset) / cfg.batch_size * cfg.epochs),
-               learning_rate=cfg.lr)
+               learning_rate=cfg.lr,
+               reduction=cfg.reduction)
 if cfg.use_pretrained:
     model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=True)
 if cfg.gradient_checkpointing:
