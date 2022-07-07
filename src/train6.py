@@ -5,6 +5,7 @@ import shutil
 import datetime
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import torch
 from torch.utils.checkpoint import checkpoint
@@ -47,7 +48,9 @@ check_gpu()
 cfg = parse_args_train()
 print(datetime.datetime.now())
 print(cfg)
-seed_everything(cfg.seed)
+seed = cfg.seed if cfg.seed != -1 else np.random.randint(0, 10000)
+print("seed=", seed)
+seed_everything(seed)
 df = pd.read_csv('../data/train_folds.csv')
 tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
 essay = pd.read_csv('../data/essay_processed.csv')
@@ -104,6 +107,6 @@ model.model.load_state_dict(torch.load(os.path.join(output_dir, f"fold{cfg.fold}
 score, oof_df = eval_token_cls_model(model.model, [s for s in samples if s['fold'] == cfg.fold], pooling=cfg.pooling)
 oof_df.to_pickle(os.path.join(output_dir, f"fold{cfg.fold}_oof.gz"))
 print(f"fold {cfg.fold}: score={score}")
-save_json({**vars(cfg), 'score': score}, os.path.join(output_dir, f"fold{cfg.fold}.json"))
+save_json({**vars(cfg), 'score': score, 'seed': seed}, os.path.join(output_dir, f"fold{cfg.fold}.json"))
 get_cv(output_dir)
 get_oof(output_dir)
