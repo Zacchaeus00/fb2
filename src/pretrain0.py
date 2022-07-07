@@ -3,6 +3,7 @@ import shutil
 import os
 import datetime
 
+import numpy as np
 import torch
 from transformers import AutoModelForMaskedLM, TrainingArguments, Trainer, AutoTokenizer, DataCollatorForWholeWordMask
 from torch.utils.checkpoint import checkpoint
@@ -31,6 +32,8 @@ def parse_args_pretrain():
 cfg = parse_args_pretrain()
 print(datetime.datetime.now())
 print(cfg)
+seed = cfg.seed if cfg.seed != -1 else np.random.randint(0, 10000)
+print("seed=", seed)
 args = TrainingArguments(
     output_dir=f"../ckpt/pretrain0/exp{cfg.exp}/tmp",
     save_strategy="epoch",
@@ -45,7 +48,7 @@ args = TrainingArguments(
     dataloader_num_workers=4,
     group_by_length=True,
     save_total_limit=1,
-    seed=cfg.seed,
+    seed=seed,
 )
 model = AutoModelForMaskedLM.from_pretrained(cfg.ckpt)
 if cfg.gradient_checkpointing:
@@ -64,4 +67,4 @@ trainer = Trainer(
 trainer.train()
 torch.save(model.state_dict(), f"../ckpt/pretrain0/exp{cfg.exp}/pretrained_model.pt")
 shutil.rmtree(f"../ckpt/pretrain0/exp{cfg.exp}/tmp")
-save_json(vars(cfg), f"../ckpt/pretrain0/exp{cfg.exp}/config.json")
+save_json({**vars(cfg), 'seed_used': seed}, f"../ckpt/pretrain0/exp{cfg.exp}/config.json")
