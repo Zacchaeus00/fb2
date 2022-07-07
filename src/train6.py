@@ -107,6 +107,6 @@ model.model.load_state_dict(torch.load(os.path.join(output_dir, f"fold{cfg.fold}
 score, oof_df = eval_token_cls_model(model.model, [s for s in samples if s['fold'] == cfg.fold], pooling=cfg.pooling)
 oof_df.to_pickle(os.path.join(output_dir, f"fold{cfg.fold}_oof.gz"))
 print(f"fold {cfg.fold}: score={score}")
-save_json({**vars(cfg), 'score': score, 'seed': seed}, os.path.join(output_dir, f"fold{cfg.fold}.json"))
+save_json({**vars(cfg), 'score': score, 'seed_used': seed}, os.path.join(output_dir, f"fold{cfg.fold}.json"))
 get_cv(output_dir)
 get_oof(output_dir)
