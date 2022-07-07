@@ -26,5 +26,5 @@ source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u train6.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-large \
 --epochs 10 --batch_size 2 --lr 1e-5 --seed 14 --fold 0 --exp 3 \
 --use_pretrained /gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp6/pretrained_model.pt \
---adv_eps 0 --patience 10
+--adv_eps 0 --patience 10 --gradient_checkpointing
 echo "FINISH"
