@@ -14,7 +14,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 
 from data_utils import prepare_data_mp, FB2Dataset
 from utils import seed_everything, save_json, get_cv
-from model_utils import reinit_deberta_v2_pooler, reinit_deberta_v2_layers
+# from model_utils import reinit_deberta_v2_pooler, reinit_deberta_v2_layers
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
