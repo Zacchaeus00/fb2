@@ -1,0 +1,48 @@
+Thu Jul  7 18:52:17 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.80       Driver Version: 460.80       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 3090    Off  | 00000000:41:00.0 Off |                  N/A |
+| 39%   23C    P8    18W / 350W |      0MiB / 24268MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+GPU checked
+2022-07-07 18:53:37.495883
+Namespace(adv_after_epoch=0, adv_eps=0.0, adv_lr=0, batch_size=2, ckpt='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-large', clip_grad_norm=10, epochs=10, exp=3, fold=4, gradient_checkpointing=True, lr=1e-05, only_infer=False, patience=10, pooling='cls', reduction='mean', seed=14, use_pretrained='/gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp6/pretrained_model.pt')
+fold 4: n_train=3355, n_val=836
+[train] loss=0.8348 [valid] loss=0.8564 [e=0 steps=500]
+[train] loss=0.7777 [valid] loss=0.6809 [e=0 steps=1000]
+[train] loss=0.7552 [valid] loss=0.6654 [e=0 steps=1500]
+[train] loss=0.7335 [valid] loss=0.6524 [e=1 steps=2000]
+[train] loss=0.7158 [valid] loss=0.6429 [e=1 steps=2500]
+[train] loss=0.7036 [valid] loss=0.6282 [e=1 steps=3000]
+[train] loss=0.6901 [valid] loss=0.6732 [e=2 steps=3500]
+[train] loss=0.6717 [valid] loss=0.6839 [e=2 steps=4000]
+[train] loss=0.6577 [valid] loss=0.6891 [e=2 steps=4500]
+[train] loss=0.6455 [valid] loss=0.6592 [e=2 steps=5000]
+[train] loss=0.6269 [valid] loss=0.7543 [e=3 steps=5500]
+[train] loss=0.6098 [valid] loss=0.8364 [e=3 steps=6000]
+[train] loss=0.5962 [valid] loss=0.7614 [e=3 steps=6500]
+[train] loss=0.5795 [valid] loss=0.9813 [e=4 steps=7000]
+[train] loss=0.5639 [valid] loss=0.9424 [e=4 steps=7500]
+[train] loss=0.5497 [valid] loss=1.0145 [e=4 steps=8000]
+fold 4: score=0.6242805197644113
+FINISH
