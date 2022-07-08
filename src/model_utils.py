@@ -122,7 +122,7 @@ class Model5(torch.nn.Module):
 
 
 class Model6(torch.nn.Module):
-    def __init__(self, ckpt, num_train_steps, learning_rate, reduction='mean'):
+    def __init__(self, ckpt, num_train_steps, learning_rate, reduction='mean', warmup_ratio=0):
         super().__init__()
         self.backbone = AutoModel.from_pretrained(ckpt)
         self.dropout1 = StableDropout(0.1)
@@ -134,6 +134,7 @@ class Model6(torch.nn.Module):
         self.num_train_steps = num_train_steps
         self.learning_rate = learning_rate
         self.loss_fct = torch.nn.CrossEntropyLoss(reduction=reduction)
+        self.warmup_ratio = warmup_ratio
 
     def forward(self, input_ids=None, attention_mask=None, labels=None):
         outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
@@ -153,7 +154,7 @@ class Model6(torch.nn.Module):
         opt = RAdam(self.parameters(), lr=self.learning_rate)
         sch = get_linear_schedule_with_warmup(
             opt,
-            num_warmup_steps=0,
+            num_warmup_steps=int(self.warmup_ratio*self.num_train_steps),
             num_training_steps=self.num_train_steps,
             last_epoch=-1,
         )

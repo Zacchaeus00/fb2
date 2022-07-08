@@ -41,6 +41,7 @@ def parse_args_train():
     arg('--patience', type=int, default=10)
     arg('--pooling', type=str, default='cls')
     arg('--reduction', type=str, default='mean')
+    arg('--warmup_ratio', type=float, default=0)
     return parser.parse_args()
 
 
@@ -66,7 +67,9 @@ Path(output_dir).mkdir(parents=True, exist_ok=True)
 model = Model6(cfg.ckpt,
                num_train_steps=int(len(train_dataset) / cfg.batch_size * cfg.epochs),
                learning_rate=cfg.lr,
-               reduction=cfg.reduction)
+               reduction=cfg.reduction,
+               warmup_ratio=cfg.warmup_ratio
+               )
 if cfg.use_pretrained:
     model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=True)
 if cfg.gradient_checkpointing:
