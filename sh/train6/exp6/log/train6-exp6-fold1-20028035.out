@@ -1,0 +1,67 @@
+Sat Jul  9 17:08:03 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.80       Driver Version: 460.80       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 3090    Off  | 00000000:42:00.0 Off |                  N/A |
+| 39%   24C    P8    25W / 350W |      0MiB / 24268MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+GPU checked
+2022-07-09 17:09:18.619855
+Namespace(adv_after_epoch=1.0, adv_eps=0.0005, adv_lr=1.0, batch_size=2, ckpt='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-large', clip_grad_norm=10, epochs=10, exp=6, fold=1, gradient_checkpointing=True, lr=1e-05, only_infer=False, patience=30, pooling='cls', reduction='mean', seed=-1, use_pretrained='/gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp6/pretrained_model.pt', warmup_ratio=0.1)
+seed= 8712
+fold 1: n_train=3350, n_val=841
+[train] loss=0.9649 [valid] loss=0.7764 [e=0 steps=500]
+[train] loss=0.8571 [valid] loss=0.8117 [e=0 steps=1000]
+[train] loss=0.8302 [valid] loss=0.7339 [e=0 steps=1500]
+[train] loss=0.8355 [valid] loss=0.8478 [e=1 steps=2000]
+[train] loss=0.8279 [valid] loss=0.9257 [e=1 steps=2500]
+[train] loss=0.8457 [valid] loss=0.8624 [e=1 steps=3000]
+[train] loss=0.8525 [valid] loss=0.8874 [e=2 steps=3500]
+[train] loss=0.8477 [valid] loss=0.8698 [e=2 steps=4000]
+[train] loss=0.8420 [valid] loss=0.7911 [e=2 steps=4500]
+[train] loss=0.8352 [valid] loss=0.7776 [e=2 steps=5000]
+[train] loss=0.8249 [valid] loss=0.7679 [e=3 steps=5500]
+[train] loss=0.8151 [valid] loss=0.7545 [e=3 steps=6000]
+[train] loss=0.8067 [valid] loss=0.7416 [e=3 steps=6500]
+[train] loss=0.7989 [valid] loss=0.7301 [e=4 steps=7000]
+[train] loss=0.7908 [valid] loss=0.7170 [e=4 steps=7500]
+[train] loss=0.7821 [valid] loss=0.7382 [e=4 steps=8000]
+[train] loss=0.7741 [valid] loss=0.7392 [e=5 steps=8500]
+[train] loss=0.7669 [valid] loss=0.7127 [e=5 steps=9000]
+[train] loss=0.7602 [valid] loss=0.7191 [e=5 steps=9500]
+[train] loss=0.7538 [valid] loss=0.7330 [e=5 steps=10000]
+[train] loss=0.7475 [valid] loss=0.7052 [e=6 steps=10500]
+[train] loss=0.7411 [valid] loss=0.7016 [e=6 steps=11000]
+[train] loss=0.7340 [valid] loss=0.7006 [e=6 steps=11500]
+[train] loss=0.7278 [valid] loss=0.6977 [e=7 steps=12000]
+[train] loss=0.7223 [valid] loss=0.6847 [e=7 steps=12500]
+[train] loss=0.7167 [valid] loss=0.6905 [e=7 steps=13000]
+[train] loss=0.7112 [valid] loss=0.6838 [e=8 steps=13500]
+[train] loss=0.7054 [valid] loss=0.6893 [e=8 steps=14000]
+[train] loss=0.7010 [valid] loss=0.6826 [e=8 steps=14500]
+[train] loss=0.6963 [valid] loss=0.6802 [e=8 steps=15000]
+[train] loss=0.6916 [valid] loss=0.6833 [e=9 steps=15500]
+[train] loss=0.6871 [valid] loss=0.6798 [e=9 steps=16000]
+[train] loss=0.6827 [valid] loss=0.6781 [e=9 steps=16500]
+[train] loss=0.6809 [valid] loss=0.6783 [e=9 steps=16750]
+fold 1: score=0.6840486408002575
+FINISH
