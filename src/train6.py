@@ -30,7 +30,7 @@ def parse_args_train():
     arg('--lr', type=float, default=2e-5)
     arg('--seed', type=int, default=42)
     arg('--fold', default=0, type=int)
-    arg('--exp', default=-1, type=int)
+    arg('--exp', required=True, type=str)
     arg('--gradient_checkpointing', action="store_true", required=False)
     arg('--use_pretrained', type=str, default='')
     arg('--adv_lr', type=float, default=0)
