@@ -72,12 +72,12 @@ model = Model6(cfg.ckpt,
                reduction=cfg.reduction,
                warmup_ratio=cfg.warmup_ratio
                )
-if cfg.mixout > 0:
-    model = mixout_convert(model, cfg.mixout)
 if cfg.use_pretrained:
     model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=True)
 if cfg.gradient_checkpointing:
     model.backbone.gradient_checkpointing_enable()
+if cfg.mixout > 0:
+    model = mixout_convert(model, cfg.mixout)
 model = Tez(model)
 if not cfg.only_infer:
     es = EarlyStopping(
