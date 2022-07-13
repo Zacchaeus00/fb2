@@ -24,6 +24,6 @@ echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u pretrain0.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/funnel-transformer_medium-base \
---epochs 30 --batch_size 4 --lr 1e-5 --weight_decay 0 --seed -1 --max_len 1024 \
---exp 12 --mlm_prob 0.3 --gradient_checkpointing
+--epochs 30 --batch_size 4 --lr 3e-5 --weight_decay 0 --seed -1 --max_len 1024 \
+--exp 12 --mlm_prob 0.3
 echo "FINISH"
