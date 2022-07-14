@@ -70,6 +70,9 @@ class Model3(torch.nn.Module):
             loss = loss_fct(logits.view(-1, 3), labels.view(-1))
         return TokenClassifierOutput(loss=loss, logits=logits)
 
+def process_state_dict(state_dict, ckpt):
+    state_dict = strip_state_dict(state_dict, ckpt)
+    return {k: v for k, v in state_dict.items() if 'decoder' not in k}
 
 def strip_state_dict(state_dict, ckpt):
     if 'deberta' in ckpt:

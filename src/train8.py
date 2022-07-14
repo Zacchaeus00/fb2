@@ -13,7 +13,7 @@ from transformers import AutoTokenizer, DataCollatorForTokenClassification
 
 from data_utils import FB2Dataset, prepare_data_token_cls
 from eval_utils import eval_token_cls_model
-from model_utils import Model8, strip_state_dict
+from model_utils import Model8, strip_state_dict, process_state_dict
 from utils import seed_everything, save_json, get_cv, get_oof, check_gpu
 from tez import Tez, TezConfig
 from tez.callbacks import EarlyStopping
@@ -73,7 +73,7 @@ model = Model8(cfg.ckpt,
                warmup_ratio=cfg.warmup_ratio
                )
 if cfg.use_pretrained:
-    model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=True)
+    model.backbone.load_state_dict(process_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=True)
 if cfg.gradient_checkpointing:
     model.backbone.gradient_checkpointing_enable()
 model = Tez(model)
