@@ -73,7 +73,7 @@ model = Model8(cfg.ckpt,
                warmup_ratio=cfg.warmup_ratio
                )
 if cfg.use_pretrained:
-    model.backbone.load_state_dict(process_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=True)
+    model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=True)
 if cfg.gradient_checkpointing:
     model.backbone.gradient_checkpointing_enable()
 model = Tez(model)
