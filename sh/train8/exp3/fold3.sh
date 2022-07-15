@@ -24,7 +24,7 @@ echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u train8.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/funnel-transformer_intermediate \
---epochs 10 --batch_size 2 --lr 1e-6 --lr_head 1e-4 --seed -1 --fold 3 --exp 3 \
+--epochs 10 --batch_size 2 --lr 1e-5 --lr_head 1e-4 --seed -1 --fold 3 --exp 3 \
 --use_pretrained /gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp15/pretrained_model.pt \
 --adv_lr 1 --adv_eps 0.0 --adv_after_epoch 1 --patience 10 --warmup_ratio 0
 echo "FINISH"
