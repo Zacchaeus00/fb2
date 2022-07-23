@@ -1,0 +1,59 @@
+Fri Jul 15 18:38:14 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.80       Driver Version: 460.80       CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce RTX 3090    Off  | 00000000:3D:00.0 Off |                  N/A |
+| 39%   26C    P8    26W / 350W |      0MiB / 24268MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+GPU checked
+2022-07-15 18:39:08.408644
+Namespace(adv_after_epoch=1.0, adv_eps=0.0, adv_lr=1.0, batch_size=2, ckpt='/gpfsnyu/scratch/yw3642/hf-models/funnel-transformer_intermediate', clip_grad_norm=10, epochs=10, exp='3', fold=0, gradient_checkpointing=False, lr=1e-05, lr_head=0.0001, only_infer=False, patience=10, pooling='cls', reduction='mean', seed=-1, use_pretrained='/gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp15/pretrained_model.pt', warmup_ratio=0.0)
+seed= 8554
+fold 0: n_train=3353, n_val=838
+[train] loss=0.9215 [valid] loss=0.7600 [e=0 steps=500]
+[train] loss=0.8494 [valid] loss=0.7680 [e=0 steps=1000]
+[train] loss=0.8157 [valid] loss=0.7926 [e=0 steps=1500]
+[train] loss=0.7992 [valid] loss=0.7489 [e=1 steps=2000]
+[train] loss=0.7856 [valid] loss=0.7121 [e=1 steps=2500]
+[train] loss=0.7774 [valid] loss=0.7544 [e=1 steps=3000]
+[train] loss=0.7648 [valid] loss=0.7741 [e=2 steps=3500]
+[train] loss=0.7607 [valid] loss=0.7117 [e=2 steps=4000]
+[train] loss=0.7499 [valid] loss=0.6926 [e=2 steps=4500]
+[train] loss=0.7459 [valid] loss=0.6865 [e=2 steps=5000]
+[train] loss=0.7371 [valid] loss=0.8241 [e=3 steps=5500]
+[train] loss=0.7307 [valid] loss=0.6951 [e=3 steps=6000]
+[train] loss=0.7227 [valid] loss=0.7131 [e=3 steps=6500]
+[train] loss=0.7167 [valid] loss=0.7715 [e=4 steps=7000]
+[train] loss=0.7097 [valid] loss=0.6929 [e=4 steps=7500]
+[train] loss=0.7026 [valid] loss=0.6782 [e=4 steps=8000]
+[train] loss=0.6963 [valid] loss=0.7277 [e=5 steps=8500]
+[train] loss=0.6892 [valid] loss=0.8009 [e=5 steps=9000]
+[train] loss=0.6847 [valid] loss=0.7194 [e=5 steps=9500]
+[train] loss=0.6789 [valid] loss=0.7234 [e=5 steps=10000]
+[train] loss=0.6730 [valid] loss=0.7283 [e=6 steps=10500]
+[train] loss=0.6668 [valid] loss=0.7324 [e=6 steps=11000]
+[train] loss=0.6608 [valid] loss=0.7571 [e=6 steps=11500]
+[train] loss=0.6552 [valid] loss=0.7302 [e=7 steps=12000]
+[train] loss=0.6490 [valid] loss=0.7814 [e=7 steps=12500]
+[train] loss=0.6440 [valid] loss=0.7972 [e=7 steps=13000]
+fold 0: score=0.666653396668356
+FINISH
