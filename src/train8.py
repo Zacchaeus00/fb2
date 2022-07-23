@@ -43,6 +43,7 @@ def parse_args_train():
     arg('--pooling', type=str, default='cls')
     arg('--reduction', type=str, default='mean')
     arg('--warmup_ratio', type=float, default=0)
+    arg('--fix', action="store_true", required=False)
     return parser.parse_args()
 
 
@@ -58,7 +59,7 @@ tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
 essay = pd.read_csv('../data/essay_processed.csv')
 essay = essay.set_index('essay_id').squeeze()
 train = pd.read_csv('../data/train_processed.csv')
-samples = prepare_data_token_cls(essay, train, tokenizer, pooling=cfg.pooling)
+samples = prepare_data_token_cls(essay, train, tokenizer, pooling=cfg.pooling, fix=cfg.fix)
 train_dataset = FB2Dataset([s for s in samples if s['fold'] != cfg.fold])
 val_dataset = FB2Dataset([s for s in samples if s['fold'] == cfg.fold])
 print(f"fold {cfg.fold}: n_train={len(train_dataset)}, n_val={len(val_dataset)}")

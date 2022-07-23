@@ -92,7 +92,7 @@ def insert_tag(text, dtext, dtype, start=0, fix=False):
     eidx = sidx + len(' ' + tag + ' ') + len(dtext)
     return text, sidx, eidx
 
-def prepare_samples(essay, train):
+def prepare_samples(essay, train, fix):
     samples = []
     for eid in tqdm(essay.index):
         text = essay[eid]
@@ -106,7 +106,7 @@ def prepare_samples(essay, train):
             dtext = row['discourse_text_processed']
             dids.append(row['discourse_id'])
             label = LABEL_MAPPING[row['discourse_effectiveness']]
-            text, sidx, eidx = insert_tag(text, dtext, dtype, start=eidx)
+            text, sidx, eidx = insert_tag(text, dtext, dtype, start=eidx, fix=fix)
             idxs.append([sidx, eidx])
             labels.append(label)
         assert (idxs == list(sorted(idxs))), idxs
@@ -155,8 +155,8 @@ def tokenize_samples(samples, tokenizer, pooling):
             assert (nlabel_assigned == len(sample['raw_labels'])), f"{nlabel_assigned}, {len(sample['raw_labels'])}"
     return samples
 
-def prepare_data_token_cls(essay, train, tokenizer, pooling='cls'):
-    samples = prepare_samples(essay, train)
+def prepare_data_token_cls(essay, train, tokenizer, pooling='cls', fix=False):
+    samples = prepare_samples(essay, train, fix)
     samples = tokenize_samples(samples, tokenizer, pooling)
     return samples
 
