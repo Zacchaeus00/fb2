@@ -105,7 +105,7 @@ def prepare_samples(essay, train):
         assert (idxs == list(sorted(idxs))), idxs
         assert df['kfold'].nunique() == 1, df['kfold'].nunique()
         samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid, 'discourse_ids': dids})
-        return samples
+    return samples
 
 def tokenize_samples(samples, tokenizer, pooling):
     for sample in tqdm(samples):
