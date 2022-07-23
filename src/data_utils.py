@@ -85,8 +85,7 @@ def insert_tag(text, dtext, dtype, start=0):
     eidx = sidx + len(' ' + tag + ' ') + len(dtext)
     return text, sidx, eidx
 
-
-def prepare_data_token_cls(essay, train, tokenizer, pooling='cls'):
+def prepare_samples(essay, train):
     samples = []
     for eid in tqdm(essay.index):
         text = essay[eid]
@@ -106,6 +105,9 @@ def prepare_data_token_cls(essay, train, tokenizer, pooling='cls'):
         assert (idxs == list(sorted(idxs))), idxs
         assert df['kfold'].nunique() == 1, df['kfold'].nunique()
         samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid, 'discourse_ids': dids})
+        return samples
+
+def tokenize_samples(samples, tokenizer, pooling):
     for sample in tqdm(samples):
         enc = tokenizer(sample['text'], return_offsets_mapping=True, add_special_tokens=False)
         seq_len = len(enc['input_ids'])
@@ -144,6 +146,11 @@ def prepare_data_token_cls(essay, train, tokenizer, pooling='cls'):
         assert len(sample['spans']) == len(sample['label_positions'])
         if pooling == 'cls':
             assert (nlabel_assigned == len(sample['raw_labels'])), f"{nlabel_assigned}, {len(sample['raw_labels'])}"
+    return samples
+
+def prepare_data_token_cls(essay, train, tokenizer, pooling='cls'):
+    samples = prepare_samples(essay, train)
+    samples = tokenize_samples(samples, tokenizer, pooling)
     return samples
 
 
