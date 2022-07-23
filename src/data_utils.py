@@ -75,10 +75,17 @@ class FB2Dataset(torch.utils.data.Dataset):
 def get_tag(discourse_type):
     return f'<{discourse_type.lower()}>'
 
+def fix_sidx(sidx, text):
+    while sidx > 0 and text[sidx].isalpha() and text[sidx-1].isalpha():
+        # print(f"{text[sidx:sidx+100]} -> {text[sidx-1:sidx-1+100]}")
+        sidx -= 1
+    return sidx
 
-def insert_tag(text, dtext, dtype, start=0):
+def insert_tag(text, dtext, dtype, start=0, fix=False):
     tag = get_tag(dtype)
     sidx = text.find(dtext, start)
+    if fix:
+        sidx = fix_sidx(sidx, text)
     if sidx == -1:
         raise KeyError
     text = text[:sidx] + ' ' + tag + ' ' + text[sidx:]
