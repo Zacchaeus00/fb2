@@ -218,3 +218,101 @@ class Model8(torch.nn.Module):
             last_epoch=-1,
         )
         return opt, sch
+
+    class Model8(torch.nn.Module):
+        def __init__(self, ckpt, num_train_steps, lr, lr_head=None, reduction='mean', warmup_ratio=0):
+            super().__init__()
+            self.backbone = AutoModel.from_pretrained(ckpt)
+            self.dropout1 = StableDropout(0.1)
+            self.dropout2 = StableDropout(0.2)
+            self.dropout3 = StableDropout(0.3)
+            self.dropout4 = StableDropout(0.4)
+            self.dropout5 = StableDropout(0.5)
+            self.classifier = torch.nn.Linear(self.backbone.config.hidden_size, 3)
+            self.num_train_steps = num_train_steps
+            self.lr = lr
+            if lr_head:
+                self.lr_head = lr_head
+            else:
+                self.lr_head = lr
+            self.loss_fct = torch.nn.CrossEntropyLoss(reduction=reduction)
+            self.warmup_ratio = warmup_ratio
+
+        def forward(self, input_ids=None, attention_mask=None, labels=None):
+            outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
+            sequence_output = outputs[0]
+            logits1 = self.classifier(self.dropout1(sequence_output))
+            logits2 = self.classifier(self.dropout2(sequence_output))
+            logits3 = self.classifier(self.dropout3(sequence_output))
+            logits4 = self.classifier(self.dropout4(sequence_output))
+            logits5 = self.classifier(self.dropout5(sequence_output))
+            logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
+            loss = None
+            if labels is not None:
+                loss = self.loss_fct(logits.view(-1, 3), labels.view(-1))
+            return logits, loss, {}
+
+        def optimizer_scheduler(self):
+            optimizer_parameters = [
+                {
+                    "params": [p for n, p in self.backbone.named_parameters()],
+                    "lr": self.lr,
+                },
+                {
+                    "params": [p for n, p in self.classifier.named_parameters()],
+                    "lr": self.lr_head,
+                },
+            ]
+            opt = RAdam(optimizer_parameters)
+            sch = get_linear_schedule_with_warmup(
+                opt,
+                num_warmup_steps=int(self.warmup_ratio * self.num_train_steps),
+                num_training_steps=self.num_train_steps,
+                last_epoch=-1,
+            )
+            return opt, sch
+
+# Model8 + single dropout
+class Model9(torch.nn.Module):
+    def __init__(self, ckpt, num_train_steps, lr, lr_head=None, reduction='mean', warmup_ratio=0):
+        super().__init__()
+        self.backbone = AutoModel.from_pretrained(ckpt)
+        self.dropout = StableDropout(0.1)
+        self.classifier = torch.nn.Linear(self.backbone.config.hidden_size, 3)
+        self.num_train_steps = num_train_steps
+        self.lr = lr
+        if lr_head:
+            self.lr_head = lr_head
+        else:
+            self.lr_head = lr
+        self.loss_fct = torch.nn.CrossEntropyLoss(reduction=reduction)
+        self.warmup_ratio = warmup_ratio
+
+    def forward(self, input_ids=None, attention_mask=None, labels=None):
+        outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
+        sequence_output = outputs[0]
+        logits = self.classifier(self.dropout(sequence_output))
+        loss = None
+        if labels is not None:
+            loss = self.loss_fct(logits.view(-1, 3), labels.view(-1))
+        return logits, loss, {}
+
+    def optimizer_scheduler(self):
+        optimizer_parameters = [
+            {
+                "params": [p for n, p in self.backbone.named_parameters()],
+                "lr": self.lr,
+            },
+            {
+                "params": [p for n, p in self.classifier.named_parameters()],
+                "lr": self.lr_head,
+            },
+            ]
+        opt = RAdam(optimizer_parameters)
+        sch = get_linear_schedule_with_warmup(
+            opt,
+            num_warmup_steps=int(self.warmup_ratio*self.num_train_steps),
+            num_training_steps=self.num_train_steps,
+            last_epoch=-1,
+        )
+        return opt, sch
