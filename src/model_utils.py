@@ -81,6 +81,8 @@ def strip_state_dict(state_dict, ckpt):
         prefix = 'roberta.'
     elif 'funnel' in ckpt:
         prefix = 'funnel.'
+    elif 'longformer' in ckpt:
+        prefix = 'longformer.'
     else:
         raise NotImplementedError
     return {k[len(prefix):]: v for k, v in state_dict.items() if k.startswith(prefix)}
