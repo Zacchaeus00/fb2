@@ -12,7 +12,7 @@ from torch.utils.checkpoint import checkpoint
 from transformers import AutoTokenizer, DataCollatorForTokenClassification
 
 from data_utils import FB2Dataset, prepare_data_token_cls
-from eval_utils import eval_token_cls_model
+from eval_utils import eval_token_cls_model, convert_oof
 from model_utils import Model8, strip_state_dict, process_state_dict
 from utils import seed_everything, save_json, get_cv, get_oof, check_gpu
 from tez import Tez, TezConfig
@@ -111,7 +111,8 @@ if not cfg.only_infer:
     )
 model.model.load_state_dict(torch.load(os.path.join(output_dir, f"fold{cfg.fold}.pt")))
 score, oof_df = eval_token_cls_model(model.model, [s for s in samples if s['fold'] == cfg.fold], pooling=cfg.pooling)
-oof_df.to_pickle(os.path.join(output_dir, f"fold{cfg.fold}_oof.gz"))
+oof_df = convert_oof(oof_df)
+oof_df.to_csv(os.path.join(output_dir, f"fold{cfg.fold}_oof.csv"), index=False)
 print(f"fold {cfg.fold}: score={score}")
 save_json({**vars(cfg), 'score': score, 'seed_used': seed}, os.path.join(output_dir, f"fold{cfg.fold}.json"))
 get_cv(output_dir)

@@ -50,3 +50,11 @@ def eval_token_cls_model(model, samples, device="cuda", pooling='cls'):
     oof_df = pd.DataFrame({'discourse_id': dids,
                            'logits': [predictions[i] for i in range(len(dids))]})
     return get_score(predictions, labels), oof_df
+
+def convert_oof(oof):
+    values = np.stack(oof.logits.values.tolist())
+    oof['Ineffective'] = values[:, 0]
+    oof['Adequate'] = values[:, 1]
+    oof['Effective'] = values[:, 2]
+    oof = oof.drop(['logits'], axis=1)
+    return oof
