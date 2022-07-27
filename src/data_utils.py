@@ -75,6 +75,12 @@ class FB2Dataset(torch.utils.data.Dataset):
 def get_tag(discourse_type):
     return f'<{discourse_type.lower()}>'
 
+def get_tag_v2(discourse_type, end=False):
+    discourse_type = discourse_type.lower()
+    if end:
+        return f'<{discourse_type} end>'
+    return f'<{discourse_type} start>'
+
 def fix_sidx(sidx, text):
     while sidx > 0 and text[sidx].isalpha() and text[sidx-1].isalpha():
         # print(f"{text[sidx:sidx+100]} -> {text[sidx-1:sidx-1+100]}")
@@ -92,7 +98,20 @@ def insert_tag(text, dtext, dtype, start=0, fix=False):
     eidx = sidx + len(' ' + tag + ' ') + len(dtext)
     return text, sidx, eidx
 
-def prepare_samples(essay, train, fix):
+def insert_tag_v2(text, dtext, dtype, start=0, fix=False):
+    stag = get_tag_v2(dtype)
+    etag = get_tag_v2(dtype, end=True)
+    sidx = text.find(dtext, start)
+    if fix:
+        sidx = fix_sidx(sidx, text)
+    if sidx == -1:
+        raise KeyError
+    text = text[:sidx] + ' ' + stag + ' ' + text[sidx:]
+    eidx = sidx + len(' ' + stag + ' ') + len(dtext)
+    text = text[:eidx] + ' ' + etag + ' ' + text[eidx:]
+    return text, sidx, eidx
+
+def prepare_samples(essay, train, fix, end=False):
     samples = []
     for eid in tqdm(essay.index):
         text = essay[eid]
@@ -106,7 +125,10 @@ def prepare_samples(essay, train, fix):
             dtext = row['discourse_text_processed']
             dids.append(row['discourse_id'])
             label = LABEL_MAPPING[row['discourse_effectiveness']]
-            text, sidx, eidx = insert_tag(text, dtext, dtype, start=eidx, fix=fix)
+            if end:
+                text, sidx, eidx = insert_tag_v2(text, dtext, dtype, start=eidx, fix=fix)
+            else:
+                text, sidx, eidx = insert_tag(text, dtext, dtype, start=eidx, fix=fix)
             idxs.append([sidx, eidx])
             labels.append(label)
         assert (idxs == list(sorted(idxs))), idxs
@@ -155,8 +177,8 @@ def tokenize_samples(samples, tokenizer, pooling):
             assert (nlabel_assigned == len(sample['raw_labels'])), f"{nlabel_assigned}, {len(sample['raw_labels'])}"
     return samples
 
-def prepare_data_token_cls(essay, train, tokenizer, pooling='cls', fix=False):
-    samples = prepare_samples(essay, train, fix)
+def prepare_data_token_cls(essay, train, tokenizer, pooling='cls', fix=False, end=False):
+    samples = prepare_samples(essay, train, fix, end)
     samples = tokenize_samples(samples, tokenizer, pooling)
     return samples
 
@@ -184,5 +206,5 @@ if __name__ == '__main__':
     essay = pd.read_csv('../data/essay_processed.csv')
     essay = essay.set_index('essay_id').squeeze()
     train = pd.read_csv('../data/train_processed.csv')
-    samples = prepare_data_token_cls(essay, train, tokenizer, pooling='mean')
-    print(samples[0])
+    samples = prepare_data_token_cls(essay, train, tokenizer, pooling='mean', end=True)
+    print(samples[:5])
