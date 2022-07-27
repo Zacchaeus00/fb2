@@ -66,5 +66,5 @@ trainer = Trainer(
 )
 trainer.train()
 torch.save(model.state_dict(), f"../ckpt/pretrain0/exp{cfg.exp}/pretrained_model.pt")
-shutil.rmtree(f"../ckpt/pretrain0/exp{cfg.exp}/tmp")
+# shutil.rmtree(f"../ckpt/pretrain0/exp{cfg.exp}/tmp")
 save_json({**vars(cfg), 'seed_used': seed}, f"../ckpt/pretrain0/exp{cfg.exp}/config.json")
