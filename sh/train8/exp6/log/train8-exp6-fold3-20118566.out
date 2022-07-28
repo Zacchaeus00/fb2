@@ -1,0 +1,51 @@
+Thu Jul 28 01:28:36 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.73.01    Driver Version: 460.73.01    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  A10                 On   | 00000000:44:00.0 Off |                    0 |
+|  0%   43C    P8    24W / 150W |      0MiB / 22731MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+GPU checked
+2022-07-28 01:35:23.251467
+Namespace(adv_after_epoch=1.0, adv_eps=0.0003, adv_lr=1.0, batch_size=4, ckpt='/gpfsnyu/scratch/yw3642/hf-models/allenai_longformer-base-4096', clip_grad_norm=10, epochs=10, exp='6', fix=False, fold=3, gradient_checkpointing=True, lr=1e-05, lr_head=0.001, only_infer=False, patience=30, pooling='cls', reduction='mean', seed=-1, use_pretrained='/gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp16/pretrained_model.pt', warmup_ratio=0.1)
+seed= 1525
+fold 3: n_train=3351, n_val=840
+[train] loss=0.9324 [valid] loss=0.8315 [e=0 steps=500]
+[train] loss=0.8667 [valid] loss=0.7212 [e=1 steps=1000]
+[train] loss=0.8283 [valid] loss=0.7213 [e=1 steps=1500]
+[train] loss=0.7988 [valid] loss=0.6797 [e=2 steps=2000]
+[train] loss=0.7780 [valid] loss=0.7159 [e=2 steps=2500]
+[train] loss=0.7610 [valid] loss=0.6550 [e=3 steps=3000]
+[train] loss=0.7438 [valid] loss=0.6399 [e=4 steps=3500]
+[train] loss=0.7264 [valid] loss=0.6342 [e=4 steps=4000]
+[train] loss=0.7095 [valid] loss=0.6320 [e=5 steps=4500]
+[train] loss=0.6946 [valid] loss=0.6434 [e=5 steps=5000]
+[train] loss=0.6797 [valid] loss=0.6184 [e=6 steps=5500]
+[train] loss=0.6681 [valid] loss=0.6303 [e=7 steps=6000]
+[train] loss=0.6560 [valid] loss=0.6165 [e=7 steps=6500]
+[train] loss=0.6453 [valid] loss=0.6222 [e=8 steps=7000]
+[train] loss=0.6355 [valid] loss=0.6167 [e=8 steps=7500]
+[train] loss=0.6257 [valid] loss=0.6250 [e=9 steps=8000]
+[train] loss=0.6198 [valid] loss=0.6227 [e=9 steps=8377]
+fold 3: score=0.6166941507742939
+*** CV=0.6315855846805837 is saved to ../ckpt/train8/exp6/ ***
+FINISH

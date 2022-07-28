@@ -1,0 +1,68 @@
+Thu Jul 28 16:00:19 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.73.01    Driver Version: 460.73.01    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  A10                 On   | 00000000:45:00.0 Off |                    0 |
+|  0%   49C    P8    19W / 150W |      0MiB / 22731MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+GPU checked
+2022-07-28 16:06:26.167415
+Namespace(adv_after_epoch=1.0, adv_eps=0.0002, adv_lr=1.0, batch_size=2, ckpt='/gpfsnyu/scratch/yw3642/hf-models/allenai_longformer-large-4096', clip_grad_norm=10, epochs=10, exp='7', fix=False, fold=4, gradient_checkpointing=True, lr=5e-06, lr_head=0.0001, only_infer=False, patience=30, pooling='cls', reduction='mean', seed=-1, use_pretrained='/gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp17/pretrained_model.pt', warmup_ratio=0.1)
+seed= 1806
+fold 4: n_train=3355, n_val=836
+[train] loss=0.9849 [valid] loss=0.9345 [e=0 steps=500]
+[train] loss=0.8999 [valid] loss=0.7835 [e=0 steps=1000]
+[train] loss=0.8574 [valid] loss=0.8620 [e=0 steps=1500]
+[train] loss=0.8351 [valid] loss=0.7578 [e=1 steps=2000]
+[train] loss=0.8145 [valid] loss=0.7815 [e=1 steps=2500]
+[train] loss=0.7991 [valid] loss=0.7192 [e=1 steps=3000]
+[train] loss=0.7849 [valid] loss=0.6819 [e=2 steps=3500]
+[train] loss=0.7707 [valid] loss=0.6959 [e=2 steps=4000]
+[train] loss=0.7578 [valid] loss=0.6802 [e=2 steps=4500]
+[train] loss=0.7479 [valid] loss=0.6696 [e=2 steps=5000]
+[train] loss=0.7363 [valid] loss=0.6546 [e=3 steps=5500]
+[train] loss=0.7262 [valid] loss=0.6537 [e=3 steps=6000]
+[train] loss=0.7171 [valid] loss=0.6420 [e=3 steps=6500]
+[train] loss=0.7085 [valid] loss=0.6366 [e=4 steps=7000]
+[train] loss=0.6994 [valid] loss=0.6640 [e=4 steps=7500]
+[train] loss=0.6902 [valid] loss=0.6301 [e=4 steps=8000]
+[train] loss=0.6836 [valid] loss=0.6224 [e=5 steps=8500]
+[train] loss=0.6760 [valid] loss=0.6218 [e=5 steps=9000]
+[train] loss=0.6680 [valid] loss=0.6394 [e=5 steps=9500]
+[train] loss=0.6622 [valid] loss=0.6390 [e=5 steps=10000]
+[train] loss=0.6546 [valid] loss=0.6204 [e=6 steps=10500]
+[train] loss=0.6471 [valid] loss=0.6228 [e=6 steps=11000]
+[train] loss=0.6400 [valid] loss=0.6156 [e=6 steps=11500]
+[train] loss=0.6329 [valid] loss=0.6279 [e=7 steps=12000]
+[train] loss=0.6258 [valid] loss=0.6310 [e=7 steps=12500]
+[train] loss=0.6195 [valid] loss=0.6217 [e=7 steps=13000]
+[train] loss=0.6132 [valid] loss=0.6226 [e=8 steps=13500]
+[train] loss=0.6065 [valid] loss=0.6267 [e=8 steps=14000]
+[train] loss=0.6003 [valid] loss=0.6347 [e=8 steps=14500]
+[train] loss=0.5947 [valid] loss=0.6286 [e=8 steps=15000]
+[train] loss=0.5890 [valid] loss=0.6316 [e=9 steps=15500]
+[train] loss=0.5831 [valid] loss=0.6332 [e=9 steps=16000]
+[train] loss=0.5778 [valid] loss=0.6332 [e=9 steps=16500]
+[train] loss=0.5750 [valid] loss=0.6344 [e=9 steps=16775]
+fold 4: score=0.6162880146850083
+*** CV=0.6104706291704126 is saved to ../ckpt/train8/exp7/ ***
+FINISH
