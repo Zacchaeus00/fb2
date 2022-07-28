@@ -49,16 +49,16 @@ def get_cv(directory):
 def get_oof(directory):
     dfs = []
     for fold in range(5):
-        path = os.path.join(directory, f'fold{fold}_oof.gz')
+        path = os.path.join(directory, f'fold{fold}_oof.csv')
         if not os.path.isfile(path):
             return
-        dfs.append(pd.read_pickle(path))
+        dfs.append(pd.read_csv(path))
     assert len(dfs) == 5, len(dfs)
     df = pd.concat(dfs).reset_index(drop=True)
-    path = os.path.join(directory, 'oof.gz')
+    path = os.path.join(directory, 'oof.csv')
     df.to_pickle(path)
     for fold in range(5):
-        path = os.path.join(directory, f'fold{fold}_oof.gz')
+        path = os.path.join(directory, f'fold{fold}_oof.csv')
         os.remove(path)
     print(f"*** OOF saved to {path} ***")
 
