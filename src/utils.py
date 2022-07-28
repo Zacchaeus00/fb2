@@ -56,7 +56,7 @@ def get_oof(directory):
     assert len(dfs) == 5, len(dfs)
     df = pd.concat(dfs).reset_index(drop=True)
     path = os.path.join(directory, 'oof.csv')
-    df.to_pickle(path)
+    df.to_csv(path, index=False)
     for fold in range(5):
         path = os.path.join(directory, f'fold{fold}_oof.csv')
         os.remove(path)
