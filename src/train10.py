@@ -69,7 +69,7 @@ Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 ckpt = cfg.use_pretrained if os.path.isdir(cfg.use_pretrained) else cfg.ckpt
 print("ckpt:", ckpt)
-model = Model8(cfg.ckpt,
+model = Model8(ckpt,
                num_train_steps=int(len(train_dataset) / cfg.batch_size * cfg.epochs),
                lr=cfg.lr,
                lr_head=cfg.lr_head,
