@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #SBATCH --job-name=train10-exp3-fold3
 #SBATCH --nodes=1
