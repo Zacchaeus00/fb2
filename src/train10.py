@@ -67,6 +67,8 @@ print(f"fold {cfg.fold}: n_train={len(train_dataset)}, n_val={len(val_dataset)}"
 output_dir = f"../ckpt/{os.path.basename(__file__).split('.')[0]}/exp{cfg.exp}/"
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
+ckpt = cfg.use_pretrained if os.path.isdir(cfg.use_pretrained) else cfg.ckpt
+print("ckpt:", ckpt)
 model = Model8(cfg.ckpt,
                num_train_steps=int(len(train_dataset) / cfg.batch_size * cfg.epochs),
                lr=cfg.lr,
@@ -74,7 +76,7 @@ model = Model8(cfg.ckpt,
                reduction=cfg.reduction,
                warmup_ratio=cfg.warmup_ratio
                )
-if cfg.use_pretrained:
+if cfg.use_pretrained and not os.path.isdir(cfg.use_pretrained):
     model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=False)
 if cfg.gradient_checkpointing:
     model.backbone.gradient_checkpointing_enable()
