@@ -24,6 +24,6 @@ echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u pretrain0.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/google_bigbird-roberta-large \
---epochs 35 --batch_size 2 --lr 5e-6 --weight_decay 0 --seed -1 --max_len 1024 \
+--epochs 35 --batch_size 2 --lr 5e-6 --weight_decay 0 --seed -1 --max_len 4096 \
 --exp 23 --mlm_prob 0.3 --gradient_checkpointing
 echo "FINISH"
