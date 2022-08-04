@@ -35,7 +35,7 @@ print(cfg)
 seed = cfg.seed if cfg.seed != -1 else np.random.randint(0, 10000)
 print("seed=", seed)
 args = TrainingArguments(
-    output_dir=f"../ckpt/pretrain0/exp{cfg.exp}",
+    output_dir=f"../ckpt/pretrain0/exp{cfg.exp}/{os.path.basename(cfg.ckpt)}",
     save_strategy="epoch",
     learning_rate=cfg.lr,
     per_device_train_batch_size=cfg.batch_size,
