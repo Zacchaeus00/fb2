@@ -25,5 +25,5 @@ source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u pretrain0.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v2-xlarge-mnli \
 --epochs 50 --batch_size 2 --lr 2.5e-6 --weight_decay 0 --seed -1 --max_len 1024 \
---exp 25 --mlm_prob 0.3 --gradient_checkpointing
+--exp 25 --mlm_prob 0.2 --gradient_checkpointing
 echo "FINISH"
