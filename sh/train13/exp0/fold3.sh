@@ -25,7 +25,7 @@ echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u train13.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-large \
---epochs 10 --batch_size 2 --lr 5e-6 --lr_head 1e-4 --seed -1 --fold 3 --exp 0 \
+--epochs 12 --batch_size 2 --lr 5e-6 --lr_head 1e-4 --seed -1 --fold 3 --exp 0 \
 --use_pretrained /gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp6/pretrained_model.pt \
 --adv_lr 1 --adv_eps 0.0002 --adv_after_epoch 1 --patience 30 --gradient_checkpointing --warmup_ratio 0.1 \
 --hs_pooler_dropout 0.5 --lr_hs_pooler 1e-3
