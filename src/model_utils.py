@@ -397,7 +397,7 @@ class Model12(torch.nn.Module):
 
 # model 8 + linear all hidden layers
 class Model13(torch.nn.Module):
-    def __init__(self, ckpt, num_train_steps, lr, lr_head=None, reduction='mean', warmup_ratio=0, hs_pooler_dropout=0.5):
+    def __init__(self, ckpt, num_train_steps, lr, lr_head=None, lr_hs_pooler=1e-3, reduction='mean', warmup_ratio=0, hs_pooler_dropout=0.5):
         super().__init__()
         self.config = AutoConfig.from_pretrained(ckpt, output_hidden_states=True)
         self.backbone = AutoModel.from_pretrained(ckpt, config=self.config)
@@ -414,6 +414,7 @@ class Model13(torch.nn.Module):
             self.lr_head = lr_head
         else:
             self.lr_head = lr
+        self.lr_hs_pooler = lr_hs_pooler
         self.loss_fct = torch.nn.CrossEntropyLoss(reduction=reduction)
         self.warmup_ratio = warmup_ratio
         self.hs_pooler_dropout = hs_pooler_dropout
@@ -446,6 +447,10 @@ class Model13(torch.nn.Module):
             {
                 "params": [p for n, p in self.classifier.named_parameters()],
                 "lr": self.lr_head,
+            },
+            {
+                "params": [p for n, p in self.hs_pooler.named_parameters()],
+                "lr": self.lr_hs_pooler,
             },
             ]
         opt = RAdam(optimizer_parameters)

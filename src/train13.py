@@ -45,6 +45,7 @@ def parse_args_train():
     arg('--warmup_ratio', type=float, default=0)
     arg('--fix', action="store_true", required=False)
     arg('--hs_pooler_dropout', type=float, default=0.5)
+    arg('--lr_hs_pooler', type=float, default=1e-3)
     return parser.parse_args()
 
 
@@ -76,7 +77,8 @@ model = Model13(ckpt,
                 lr_head=cfg.lr_head,
                 reduction=cfg.reduction,
                 warmup_ratio=cfg.warmup_ratio,
-                hs_pooler_dropout=cfg.hs_pooler_dropout
+                hs_pooler_dropout=cfg.hs_pooler_dropout,
+                lr_hs_pooler=cfg.lr_hs_pooler,
                 )
 if cfg.use_pretrained and not os.path.isdir(cfg.use_pretrained):
     model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=False)
