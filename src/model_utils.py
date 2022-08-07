@@ -423,7 +423,7 @@ class Model13(torch.nn.Module):
         outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
         hs = outputs['hidden_states']
         hs_pt = torch.stack(hs[-self.config.num_hidden_layers:], dim=3)
-        if random.random() < self.hs_pooler_dropout:
+        if random.random() < self.hs_pooler_dropout and self.hs_pooler.training:
             hs_pt[:, :, :, random.randrange(self.config.num_hidden_layers)] = 0
         sequence_output = self.hs_pooler(hs_pt)
         sequence_output = sequence_output.view(sequence_output.shape[0], sequence_output.shape[1], sequence_output.shape[2])
