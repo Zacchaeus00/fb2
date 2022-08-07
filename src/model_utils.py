@@ -354,7 +354,7 @@ class Model12(torch.nn.Module):
     def forward(self, input_ids=None, attention_mask=None, labels=None):
         outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
         sequence_output = outputs[0]
-        sequence_output = self.rnn(sequence_output)
+        sequence_output, _ = self.rnn(sequence_output)
         logits1 = self.classifier(self.dropout1(sequence_output))
         logits2 = self.classifier(self.dropout2(sequence_output))
         logits3 = self.classifier(self.dropout3(sequence_output))
