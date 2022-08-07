@@ -328,11 +328,14 @@ class Model12(torch.nn.Module):
         super().__init__()
         self.backbone = AutoModel.from_pretrained(ckpt)
         self.config = self.backbone.config
+        dim = self.config.hidden_size
+        if rnn_bi:
+            dim //= 2
         if rnn_type == 'gru':
-            self.rnn = torch.nn.GRU(self.config.hidden_size, self.config.hidden_size, rnn_nl, dropout=rnn_dropout,
+            self.rnn = torch.nn.GRU(self.config.hidden_size, dim, rnn_nl, dropout=rnn_dropout,
                                     bidirectional=rnn_bi, batch_first=True)
         elif rnn_type == 'lstm':
-            self.rnn = torch.nn.LSTM(self.config.hidden_size, self.config.hidden_size, rnn_nl, dropout=rnn_dropout,
+            self.rnn = torch.nn.LSTM(self.config.hidden_size, dim, rnn_nl, dropout=rnn_dropout,
                                     bidirectional=rnn_bi, batch_first=True)
         else:
             raise NotImplementedError

@@ -1,4 +1,5 @@
 #!/bin/bash
+##train10-exp1 + rnn
 #SBATCH --job-name=train12-exp0-fold0
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
