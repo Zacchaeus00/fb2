@@ -1,10 +1,11 @@
 import torch
 from torch.optim import AdamW, Adam, RAdam
-from transformers import AutoModel, get_linear_schedule_with_warmup
+from transformers import AutoModel, get_linear_schedule_with_warmup, AutoConfig
 from transformers.modeling_outputs import TokenClassifierOutput
 from transformers.models.deberta.modeling_deberta import StableDropout
 from transformers.trainer_pt_utils import get_parameter_names
 import bitsandbytes as bnb
+import random
 
 
 def get_deberta_v2_layers(model, n):
@@ -381,6 +382,69 @@ class Model12(torch.nn.Module):
             },
             {
                 "params": [p for n, p in self.rnn.named_parameters()],
+                "lr": self.lr_head,
+            },
+            ]
+        opt = RAdam(optimizer_parameters)
+        sch = get_linear_schedule_with_warmup(
+            opt,
+            num_warmup_steps=int(self.warmup_ratio*self.num_train_steps),
+            num_training_steps=self.num_train_steps,
+            last_epoch=-1,
+        )
+        return opt, sch
+
+
+# model 8 + linear all hidden layers
+class Model13(torch.nn.Module):
+    def __init__(self, ckpt, num_train_steps, lr, lr_head=None, reduction='mean', warmup_ratio=0, hs_pooler_dropout=0.5):
+        super().__init__()
+        self.config = AutoConfig.from_pretrained(ckpt, output_hidden_states=True)
+        self.backbone = AutoModel.from_pretrained(ckpt, config=self.config)
+        self.hs_pooler = torch.nn.Linear(self.config.num_hidden_layers, 1)
+        self.dropout1 = StableDropout(0.1)
+        self.dropout2 = StableDropout(0.2)
+        self.dropout3 = StableDropout(0.3)
+        self.dropout4 = StableDropout(0.4)
+        self.dropout5 = StableDropout(0.5)
+        self.classifier = torch.nn.Linear(self.backbone.config.hidden_size, 3)
+        self.num_train_steps = num_train_steps
+        self.lr = lr
+        if lr_head:
+            self.lr_head = lr_head
+        else:
+            self.lr_head = lr
+        self.loss_fct = torch.nn.CrossEntropyLoss(reduction=reduction)
+        self.warmup_ratio = warmup_ratio
+        self.hs_pooler_dropout = hs_pooler_dropout
+
+    def forward(self, input_ids=None, attention_mask=None, labels=None):
+        outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
+        hs = outputs['hidden_states']
+        hs_pt = torch.stack(hs[-self.config.num_hidden_layers:], dim=3)
+        if random.random() < self.hs_pooler_dropout:
+            hs_pt[:, :, :, random.randrange(self.config.num_hidden_layers)] = 0
+        sequence_output = self.hs_pooler(hs_pt)
+        sequence_output = sequence_output.view(sequence_output.shape[0], sequence_output.shape[1], sequence_output.shape[2])
+        logits1 = self.classifier(self.dropout1(sequence_output))
+        logits2 = self.classifier(self.dropout2(sequence_output))
+        logits3 = self.classifier(self.dropout3(sequence_output))
+        logits4 = self.classifier(self.dropout4(sequence_output))
+        logits5 = self.classifier(self.dropout5(sequence_output))
+        logits = (logits1 + logits2 + logits3 + logits4 + logits5) / 5
+        loss = None
+        if labels is not None:
+            loss = self.loss_fct(logits.view(-1, 3), labels.view(-1))
+        return logits, loss, {}
+
+    def optimizer_scheduler(self):
+        optimizer_parameters = [
+            {
+                "params": [p for n, p in self.backbone.named_parameters()],
+                "lr": self.lr,
+            },
+            {
+                "params": [p for n, p in self.classifier.named_parameters()],
                 "lr": self.lr_head,
             },
             ]
