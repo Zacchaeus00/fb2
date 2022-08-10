@@ -325,7 +325,7 @@ class Model11(torch.nn.Module):
 
 # Model8 + RNN
 class Model12(torch.nn.Module):
-    def __init__(self, ckpt, num_train_steps, lr, lr_head=None, reduction='mean', warmup_ratio=0, rnn_type='none', rnn_bi=True, rnn_nl=1, rnn_dropout=0):
+    def __init__(self, ckpt, num_train_steps, lr, lr_head=None, reduction='mean', warmup_ratio=0, rnn_type='none', rnn_bi=True, rnn_nl=1, rnn_dropout=0, layer_norm=False):
         super().__init__()
         self.backbone = AutoModel.from_pretrained(ckpt)
         self.config = self.backbone.config
@@ -354,10 +354,15 @@ class Model12(torch.nn.Module):
             self.lr_head = lr
         self.loss_fct = torch.nn.CrossEntropyLoss(reduction=reduction)
         self.warmup_ratio = warmup_ratio
+        self.do_layer_norm = layer_norm
+        if layer_norm:
+            self.layer_norm = torch.nn.LayerNorm(self.config.hidden_size)
 
     def forward(self, input_ids=None, attention_mask=None, labels=None):
         outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
         sequence_output = outputs[0]
+        if self.do_layer_norm:
+            sequence_output = self.layer_norm(sequence_output)
         sequence_output, _ = self.rnn(sequence_output)
         logits1 = self.classifier(self.dropout1(sequence_output))
         logits2 = self.classifier(self.dropout2(sequence_output))

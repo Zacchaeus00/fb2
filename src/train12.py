@@ -47,6 +47,7 @@ def parse_args_train():
     arg('--fix', action="store_true", required=False)
     arg('--rnn_type', type=str, default='gru')
     arg('--rnn_bi', action="store_true", required=False)
+    arg('--layer_norm', action="store_true", required=False)
     arg('--rnn_nl', type=int, default=1)
     arg('--rnn_dropout', type=float, default=0.1)
     return parser.parse_args()
@@ -84,6 +85,7 @@ model = Model12(ckpt,
                 rnn_bi=cfg.rnn_bi,
                 rnn_nl=cfg.rnn_nl,
                 rnn_dropout=cfg.rnn_dropout,
+                layer_norm=cfg.layer_norm,
                 )
 if cfg.use_pretrained and not os.path.isdir(cfg.use_pretrained):
     model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=False)
