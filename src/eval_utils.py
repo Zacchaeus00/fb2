@@ -45,7 +45,10 @@ def eval_token_cls_model(model, samples, device="cuda", pooling='cls'):
     predictions = np.vstack(predictions)
     dids = []
     for s in samples:
-        dids += s['discourse_ids']
+        if 'discourse_ids' in s:
+            dids += s['discourse_ids']
+        else:
+            dids += s['discourse_id']
     assert (len(dids) == predictions.shape[0]), [len(dids), predictions.shape[0]]
     oof_df = pd.DataFrame({'discourse_id': dids,
                            'logits': [predictions[i] for i in range(len(dids))]})

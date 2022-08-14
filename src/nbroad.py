@@ -9,7 +9,7 @@ import pandas as pd
 from datasets import Dataset
 from text_unidecode import unidecode
 from transformers import AutoTokenizer
-
+LABEL_MAPPING = {"Ineffective": 0, "Adequate": 1, "Effective": 2}
 
 # https://www.kaggle.com/competitions/feedback-prize-2021/discussion/313330
 def replace_encoding_with_utf8(error: UnicodeError) -> Tuple[bytes, int]:
@@ -72,11 +72,12 @@ def get_dataset(cfg):
     cls_tokens_map = {label: f"[CLS_{label.upper()}]" for label in disc_types}
     end_tokens_map = {label: f"[END_{label.upper()}]" for label in disc_types}
 
-    label2id = {
-        "Adequate": 0,
-        "Effective": 1,
-        "Ineffective": 2,
-    }
+    # label2id = {
+    #     "Adequate": 0,
+    #     "Effective": 1,
+    #     "Ineffective": 2,
+    # }
+    label2id = LABEL_MAPPING
 
     tokenizer = AutoTokenizer.from_pretrained(cfg["model_name_or_path"])
     tokenizer.add_special_tokens(
@@ -166,6 +167,7 @@ def get_dataset(cfg):
             truncation=False,
             add_special_tokens=True,
         )
+        tokenized['raw_labels'] = labels
 
         # at this point, labels is not the same shape as input_ids.
         # The following loop will add -100 so that the loss function
@@ -174,15 +176,18 @@ def get_dataset(cfg):
         # idx for labels list
         idx = 0
         final_labels = []
-        for id_ in tokenized["input_ids"]:
+        label_positions = []
+        for lp, id_ in enumerate(tokenized["input_ids"]):
             # if this id belongs to a CLS token
             if id_ in cls_id_map.values():
+                label_positions.append(lp)
                 final_labels.append(labels[idx])
                 idx += 1
             else:
                 # -100 will be ignored by loss function
                 final_labels.append(-100)
 
+        tokenized["label_positions"] = label_positions
         tokenized["labels"] = final_labels
 
         return tokenized
@@ -203,19 +208,20 @@ def get_dataset(cfg):
 
 if __name__ == '__main__':
     cfg = {
-        'num_proc': os.cpu_count(),
+        'num_proc': 1,
         "data_dir": "../data/feedback-prize-effectiveness",
         "model_name_or_path": "microsoft/deberta-v3-base",
     }
     ds, tokenizer = get_dataset(cfg)
     print(ds)
+    print(ds[0])
     # print(tokenizer.decode(ds[0]['input_ids']))
-    fold_df = pd.read_csv('../data/train_folds.csv')
-    folds = []
-    for sample in ds:
-        eid = sample['essay_id']
-        df = fold_df[fold_df['essay_id']==eid]
-        assert(df['kfold'].nunique()==1)
-        folds.append(df['kfold'].values[0])
-    ds = ds.add_column("fold", folds)
-    print(ds)
+    # fold_df = pd.read_csv('../data/train_folds.csv')
+    # folds = []
+    # for sample in ds:
+    #     eid = sample['essay_id']
+    #     df = fold_df[fold_df['essay_id']==eid]
+    #     assert(df['kfold'].nunique()==1)
+    #     folds.append(df['kfold'].values[0])
+    # ds = ds.add_column("fold", folds)
+    # print(ds)

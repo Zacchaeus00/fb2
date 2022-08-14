@@ -14,7 +14,8 @@ from transformers import DataCollatorForTokenClassification
 
 from model_utils import Model8, strip_state_dict
 from nbroad import get_dataset
-from utils import seed_everything, check_gpu
+from eval_utils import eval_token_cls_model, convert_oof
+from utils import seed_everything, check_gpu, save_json, get_cv, get_oof
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
@@ -53,7 +54,7 @@ seed = cfg.seed if cfg.seed != -1 else np.random.randint(0, 10000)
 print("seed=", seed)
 seed_everything(seed)
 nb_cfg = {
-    'num_proc': os.cpu_count(),
+    'num_proc': 1,
     "data_dir": "../data/feedback-prize-effectiveness",
     "model_name_or_path": cfg.ckpt,
 }
@@ -74,8 +75,9 @@ keep_cols = {"input_ids", "attention_mask", "labels"}
 train_idxs = [i for i, sample in enumerate(ds) if sample['fold'] != cfg.fold]
 eval_idxs = [i for i, sample in enumerate(ds) if sample['fold'] == cfg.fold]
 train_dataset = ds.select(train_idxs).remove_columns([c for c in ds.column_names if c not in keep_cols])
-eval_dataset = ds.select(eval_idxs).remove_columns([c for c in ds.column_names if c not in keep_cols])
-print(f"fold {cfg.fold}: n_train={len(train_dataset)}, n_val={len(eval_dataset)}")
+eval_dataset = ds.select(eval_idxs)
+val_dataset = eval_dataset.remove_columns([c for c in ds.column_names if c not in keep_cols])
+print(f"fold {cfg.fold}: n_train={len(train_dataset)}, n_val={len(val_dataset)}")
 output_dir = f"../ckpt/{os.path.basename(__file__).split('.')[0]}/exp{cfg.exp}/"
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -118,17 +120,17 @@ if not cfg.only_infer:
     )
     model.fit(
         train_dataset,
-        valid_dataset=eval_dataset,
+        valid_dataset=val_dataset,
         train_collate_fn=DataCollatorForTokenClassification(tokenizer),
         valid_collate_fn=DataCollatorForTokenClassification(tokenizer),
         callbacks=[es],
         config=config,
     )
 model.model.load_state_dict(torch.load(os.path.join(output_dir, f"fold{cfg.fold}.pt")))
-# score, oof_df = eval_token_cls_model(model.model, [s for s in samples if s['fold'] == cfg.fold], pooling=cfg.pooling)
-# oof_df = convert_oof(oof_df)
-# oof_df.to_csv(os.path.join(output_dir, f"fold{cfg.fold}_oof.csv"), index=False)
-# print(f"fold {cfg.fold}: score={score}")
-# save_json({**vars(cfg), 'score': score, 'seed_used': seed}, os.path.join(output_dir, f"fold{cfg.fold}.json"))
-# get_cv(output_dir)
-# get_oof(output_dir)
+score, oof_df = eval_token_cls_model(model.model, eval_dataset, pooling=cfg.pooling)
+oof_df = convert_oof(oof_df)
+oof_df.to_csv(os.path.join(output_dir, f"fold{cfg.fold}_oof.csv"), index=False)
+print(f"fold {cfg.fold}: score={score}")
+save_json({**vars(cfg), 'score': score, 'seed_used': seed}, os.path.join(output_dir, f"fold{cfg.fold}.json"))
+get_cv(output_dir)
+get_oof(output_dir)
