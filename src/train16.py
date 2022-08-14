@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import torch
 from tez import Tez, TezConfig
 from tez.callbacks import EarlyStopping
@@ -59,6 +60,16 @@ nb_cfg = {
 ds, tokenizer = get_dataset(nb_cfg)
 print("dataset:", ds)
 print("dataset[0]:", ds[0])
+
+fold_df = pd.read_csv('../data/train_folds.csv')
+folds = []
+for sample in ds:
+    eid = sample['essay_id']
+    df = fold_df[fold_df['essay_id']==eid]
+    assert(df['kfold'].nunique()==1)
+    folds.append(df['kfold'].values[0])
+ds = ds.add_column("fold", folds)
+
 keep_cols = {"input_ids", "attention_mask", "labels"}
 train_idxs = [i for i, sample in enumerate(ds) if sample['fold'] != cfg.fold]
 eval_idxs = [i for i, sample in enumerate(ds) if sample['fold'] == cfg.fold]
