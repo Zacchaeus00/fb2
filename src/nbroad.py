@@ -11,6 +11,10 @@ from text_unidecode import unidecode
 from transformers import AutoTokenizer
 LABEL_MAPPING = {"Ineffective": 0, "Adequate": 1, "Effective": 2}
 
+def fix_florida(train):
+    train.loc[13906, 'discourse_text'] = train.loc[13906, 'discourse_text'].replace('florida', 'location_name')
+    return train
+
 # https://www.kaggle.com/competitions/feedback-prize-2021/discussion/313330
 def replace_encoding_with_utf8(error: UnicodeError) -> Tuple[bytes, int]:
     return error.object[error.start : error.end].encode("utf-8"), error.end
@@ -43,6 +47,7 @@ def get_dataset(cfg):
 
     data_dir = Path(cfg["data_dir"])
     train_df = pd.read_csv(data_dir / "train.csv")
+    train_df = fix_florida(train_df)
 
     text_ds = Dataset.from_dict({"essay_id": train_df.essay_id.unique()})
 
