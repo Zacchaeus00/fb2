@@ -1,6 +1,6 @@
 #!/bin/bash
 ##train10-exp1 + prompt
-#SBATCH --job-name=train15-exp0-fold0
+#SBATCH --job-name=train15-exp0-fold1
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -25,7 +25,7 @@ echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u train15.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-large \
---epochs 10 --batch_size 2 --lr 5e-6 --lr_head 1e-4 --seed -1 --fold 0 --exp 0 \
+--epochs 10 --batch_size 2 --lr 5e-6 --lr_head 1e-4 --seed -1 --fold 1 --exp 0 \
 --use_pretrained /gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp6/pretrained_model.pt \
 --adv_lr 1 --adv_eps 0.0002 --adv_after_epoch 1 --patience 30 --gradient_checkpointing --warmup_ratio 0.1
 
