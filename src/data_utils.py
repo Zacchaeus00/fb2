@@ -136,6 +136,31 @@ def prepare_samples(essay, train, fix, end=False):
         samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid, 'discourse_ids': dids})
     return samples
 
+def prepare_samples_with_prompt(essay, train, prompt, sep='[SEP]'):
+    samples = []
+    for eid in tqdm(essay.index):
+        text = essay[eid]
+        ptext = prompt[eid]
+        df = train[train['essay_id'] == eid]
+        idxs = []
+        labels = []
+        eidx = 0
+        dids = []
+        for _, row in df.iterrows():
+            dtype = row['discourse_type']
+            dtext = row['discourse_text_processed']
+            dids.append(row['discourse_id'])
+            label = LABEL_MAPPING[row['discourse_effectiveness']]
+            text, sidx, eidx = insert_tag_v2(text, dtext, dtype, start=eidx, fix=False)
+            idxs.append([sidx, eidx])
+            labels.append(label)
+        assert (idxs == list(sorted(idxs))), idxs
+        assert df['kfold'].nunique() == 1, df['kfold'].nunique()
+        text = ptext + sep + text
+        idxs = [list(map(lambda x: x+len(ptext)+len(sep), span)) for span in idxs]
+        samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid, 'discourse_ids': dids})
+    return samples
+
 def tokenize_samples(samples, tokenizer, pooling):
     for sample in tqdm(samples):
         enc = tokenizer(sample['text'], return_offsets_mapping=True, add_special_tokens=False)
