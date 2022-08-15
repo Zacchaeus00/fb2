@@ -1,6 +1,7 @@
 import os
 
 import numpy as np
+import pandas as pd
 import torch
 from joblib import Parallel, delayed
 from tqdm import tqdm
@@ -18,6 +19,7 @@ disc_types = [
 ]
 cls_tokens_map = {label: f"[CLS_{label.upper()}]" for label in disc_types}
 end_tokens_map = {label: f"[END_{label.upper()}]" for label in disc_types}
+
 
 def prepare_data(indir, tokenizer, df, max_len):
     training_samples = []
@@ -85,17 +87,20 @@ class FB2Dataset(torch.utils.data.Dataset):
 def get_tag(discourse_type):
     return f'<{discourse_type.lower()}>'
 
+
 def get_tag_v2(discourse_type, end=False):
     discourse_type = discourse_type.lower()
     if end:
         return f'<{discourse_type} end>'
     return f'<{discourse_type} start>'
 
+
 def fix_sidx(sidx, text):
-    while sidx > 0 and text[sidx].isalpha() and text[sidx-1].isalpha():
+    while sidx > 0 and text[sidx].isalpha() and text[sidx - 1].isalpha():
         # print(f"{text[sidx:sidx+100]} -> {text[sidx-1:sidx-1+100]}")
         sidx -= 1
     return sidx
+
 
 def insert_tag(text, dtext, dtype, start=0, fix=False):
     tag = get_tag(dtype)
@@ -107,6 +112,7 @@ def insert_tag(text, dtext, dtype, start=0, fix=False):
     text = text[:sidx] + ' ' + tag + ' ' + text[sidx:]
     eidx = sidx + len(' ' + tag + ' ') + len(dtext)
     return text, sidx, eidx
+
 
 def insert_tag_v2(text, dtext, dtype, start=0, fix=False):
     stag = get_tag_v2(dtype)
@@ -120,6 +126,7 @@ def insert_tag_v2(text, dtext, dtype, start=0, fix=False):
     eidx = sidx + len(' ' + stag + ' ') + len(dtext)
     text = text[:eidx] + ' ' + etag + ' ' + text[eidx:]
     return text, sidx, eidx
+
 
 def prepare_samples(essay, train, fix, end=False):
     samples = []
@@ -143,8 +150,11 @@ def prepare_samples(essay, train, fix, end=False):
             labels.append(label)
         assert (idxs == list(sorted(idxs))), idxs
         assert df['kfold'].nunique() == 1, df['kfold'].nunique()
-        samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid, 'discourse_ids': dids})
+        samples.append(
+            {'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid,
+             'discourse_ids': dids})
     return samples
+
 
 def prepare_samples_with_prompt(essay, train, prompt, sep='[SEP]'):
     samples = []
@@ -167,9 +177,12 @@ def prepare_samples_with_prompt(essay, train, prompt, sep='[SEP]'):
         assert (idxs == list(sorted(idxs))), idxs
         assert df['kfold'].nunique() == 1, df['kfold'].nunique()
         text = ptext + sep + text
-        idxs = [list(map(lambda x: x+len(ptext)+len(sep), span)) for span in idxs]
-        samples.append({'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid, 'discourse_ids': dids})
+        idxs = [list(map(lambda x: x + len(ptext) + len(sep), span)) for span in idxs]
+        samples.append(
+            {'text': text, 'spans': idxs, 'raw_labels': labels, 'fold': df['kfold'].unique()[0], 'essay_id': eid,
+             'discourse_ids': dids})
     return samples
+
 
 def tokenize_samples(samples, tokenizer, pooling):
     for sample in tqdm(samples):
@@ -182,7 +195,8 @@ def tokenize_samples(samples, tokenizer, pooling):
             label_positions = [[] for _ in range(len(sample['spans']))]
             for i in range(seq_len):
                 for j, (s, e) in enumerate(sample['spans']):
-                    if s <= enc['offset_mapping'][i][0] < e and enc['offset_mapping'][i][1] > enc['offset_mapping'][i][0]:
+                    if s <= enc['offset_mapping'][i][0] < e and enc['offset_mapping'][i][1] > enc['offset_mapping'][i][
+                        0]:
                         label[i] = sample['raw_labels'][j]
                         label_positions[j].append(i)
                         break
@@ -211,6 +225,7 @@ def tokenize_samples(samples, tokenizer, pooling):
         if pooling == 'cls':
             assert (nlabel_assigned == len(sample['raw_labels'])), f"{nlabel_assigned}, {len(sample['raw_labels'])}"
     return samples
+
 
 def prepare_data_token_cls(essay, train, tokenizer, pooling='cls', fix=False, end=False):
     samples = prepare_samples(essay, train, fix, end)
@@ -255,6 +270,7 @@ class Inserter:
     def get(self):
         return self.text
 
+
 class PretrainDataset1(torch.utils.data.Dataset):
     def __init__(self, dir2021, tokenizer, max_len):
         train = pd.read_csv(os.path.join(dir2021, 'train.csv'))
@@ -283,9 +299,11 @@ class PretrainDataset1(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.texts)
 
+
 if __name__ == '__main__':
     import pandas as pd
     from transformers import AutoTokenizer
+
     tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-v3-base')
     # essay = pd.read_csv('../data/essay_processed.csv')
     # essay = essay.set_index('essay_id').squeeze()
