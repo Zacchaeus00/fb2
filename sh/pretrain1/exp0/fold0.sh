@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=pretrain1-exp6
+#SBATCH --job-name=pretrain1-exp0
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
