@@ -27,6 +27,7 @@ def parse_args_pretrain():
     arg('--max_len', type=int, default=1024)
     arg('--gradient_checkpointing', action="store_true", required=False)
     arg('--mlm_prob', type=float, default=0.15)
+    arg('--resize_embedding', action="store_true", required=False)
     return parser.parse_args()
 
 

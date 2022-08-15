@@ -43,6 +43,7 @@ def parse_args_train():
     arg('--reduction', type=str, default='mean')
     arg('--warmup_ratio', type=float, default=0)
     arg('--fix', action="store_true", required=False)
+    arg('--resize_embedding', action="store_true", required=False)
     return parser.parse_args()
 
 
@@ -59,6 +60,8 @@ nb_cfg = {
     "model_name_or_path": cfg.ckpt,
 }
 ds, tokenizer = get_dataset(nb_cfg)
+assert 'CLS_CLAIM' in tokenizer.get_vocab()
+assert 'CLS_END' in tokenizer.get_vocab()
 print("dataset:", ds)
 print("dataset[0]:", ds[0])
 
@@ -94,6 +97,9 @@ if cfg.use_pretrained and not os.path.isdir(cfg.use_pretrained):
     model.backbone.load_state_dict(strip_state_dict(torch.load(cfg.use_pretrained), cfg.ckpt), strict=False)
 if cfg.gradient_checkpointing:
     model.backbone.gradient_checkpointing_enable()
+if cfg.resize_embedding:
+    print("resize embedding to len(tokenizer) =", len(tokenizer))
+    model.backbone.resize_token_embeddings(len(tokenizer))
 model = Tez(model)
 if not cfg.only_infer:
     es = EarlyStopping(
