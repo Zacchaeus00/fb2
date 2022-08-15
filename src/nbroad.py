@@ -74,8 +74,8 @@ def get_dataset(cfg):
         "Position",
         "Rebuttal",
     ]
-    cls_tokens_map = {label: f"[CLS_{label.upper()}]" for label in disc_types}
-    end_tokens_map = {label: f"[END_{label.upper()}]" for label in disc_types}
+    cls_tokens_map = {label: f"[CLS_{'_'.join(label.upper().split())}]" for label in disc_types}
+    end_tokens_map = {label: f"[END_{'_'.join(label.upper().split())}]" for label in disc_types}
 
     # label2id = {
     #     "Adequate": 0,
