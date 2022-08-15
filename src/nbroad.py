@@ -12,7 +12,7 @@ from transformers import AutoTokenizer
 LABEL_MAPPING = {"Ineffective": 0, "Adequate": 1, "Effective": 2}
 
 def fix_florida(train):
-    train.loc[13906, 'discourse_text'] = train.loc[13906, 'discourse_text'].replace('florida', 'location_name')
+    train.loc[13906, 'discourse_text'] = train.loc[13906, 'discourse_text'].replace('florida', 'LOCATION_NAME')
     return train
 
 # https://www.kaggle.com/competitions/feedback-prize-2021/discussion/313330
@@ -213,13 +213,16 @@ def get_dataset(cfg):
 
 if __name__ == '__main__':
     cfg = {
-        'num_proc': 1,
+        'num_proc': 2,
         "data_dir": "../data/feedback-prize-effectiveness",
         "model_name_or_path": "microsoft/deberta-v3-base",
     }
     ds, tokenizer = get_dataset(cfg)
-    print(ds)
-    print(ds[0])
+    # print(ds)
+    # print(ds[0])
+    for sample in ds:
+        if len(sample['discourse_id']) != len(sample['label_positions']):
+            print(sample['text'])
     # print(tokenizer.decode(ds[0]['input_ids']))
     # fold_df = pd.read_csv('../data/train_folds.csv')
     # folds = []
