@@ -7,7 +7,17 @@ from tqdm import tqdm
 from glob import glob
 
 LABEL_MAPPING = {"Ineffective": 0, "Adequate": 1, "Effective": 2}
-
+disc_types = [
+    "Claim",
+    "Concluding Statement",
+    "Counterclaim",
+    "Evidence",
+    "Lead",
+    "Position",
+    "Rebuttal",
+]
+cls_tokens_map = {label: f"[CLS_{label.upper()}]" for label in disc_types}
+end_tokens_map = {label: f"[END_{label.upper()}]" for label in disc_types}
 
 def prepare_data(indir, tokenizer, df, max_len):
     training_samples = []
@@ -224,12 +234,62 @@ class PretrainDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.texts)
 
+
+class Inserter:
+    def __init__(self, text):
+        self.raw_text = text
+        self.text = text
+        self.offset = 0
+
+    def insert(self, tag, idx):
+        idx += self.offset
+        #         assert 0 <= idx and idx <= len(self.text), [idx, len(self.text)]
+        idx = max([min([idx, len(self.text)]), 0])
+        if idx == len(self.text) or self.text[idx] != ' ':
+            tag = tag + ' '
+        if idx == 0 or self.text[idx - 1] != ' ':
+            tag = ' ' + tag
+        self.offset += len(tag)
+        self.text = self.text[:idx] + tag + self.text[idx:]
+
+    def get(self):
+        return self.text
+
+class PretrainDataset1(torch.utils.data.Dataset):
+    def __init__(self, dir2021, tokenizer, max_len):
+        train = pd.read_csv(os.path.join(dir2021, 'train.csv'))
+        tokenizer.add_special_tokens(
+            {"additional_special_tokens": list(cls_tokens_map.values()) + list(end_tokens_map.values())}
+        )
+        self.tokenizer = tokenizer
+        self.max_len = max_len
+        texts = []
+        for eid in tqdm(train.id.unique()):
+            text = open(os.path.join(dir2021, f'train/{eid}.txt')).read()
+            df = train[train['id'] == eid].reset_index(drop=True)
+            inserter = Inserter(text)
+            for i, row in df.iterrows():
+                inserter.insert(cls_tokens_map[row['discourse_type']], int(row['discourse_start']))
+                inserter.insert(end_tokens_map[row['discourse_type']], int(row['discourse_end']))
+            texts.append(inserter.get())
+        self.texts = texts
+        print(len(texts), "samples")
+        print(texts[0])
+        print("vocab size:", len(tokenizer))
+
+    def __getitem__(self, idx):
+        return self.tokenizer(self.texts[idx], max_length=self.max_len, truncation=True)
+
+    def __len__(self):
+        return len(self.texts)
+
 if __name__ == '__main__':
     import pandas as pd
     from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-v3-base')
-    essay = pd.read_csv('../data/essay_processed.csv')
-    essay = essay.set_index('essay_id').squeeze()
-    train = pd.read_csv('../data/train_processed.csv')
-    samples = prepare_data_token_cls(essay, train, tokenizer, pooling='mean', end=True)
-    print(samples[:5])
+    # essay = pd.read_csv('../data/essay_processed.csv')
+    # essay = essay.set_index('essay_id').squeeze()
+    # train = pd.read_csv('../data/train_processed.csv')
+    # samples = prepare_data_token_cls(essay, train, tokenizer, pooling='mean', end=True)
+    # print(samples[:5])
+    ds = PretrainDataset1('../data/feedback-prize-2021', tokenizer, 1024)
