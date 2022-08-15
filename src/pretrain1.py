@@ -58,8 +58,8 @@ if cfg.gradient_checkpointing:
 tokenizer = AutoTokenizer.from_pretrained(cfg.ckpt)
 dataset = PretrainDataset1('../data/feedback-prize-2021/', tokenizer, cfg.max_len)
 print("len(tokenizer) =", len(tokenizer))
-assert 'CLS_CLAIM' in tokenizer.get_vocab()
-assert 'CLS_END' in tokenizer.get_vocab()
+assert '[CLS_CLAIM]' in tokenizer.get_vocab()
+assert '[END_CLAIM]' in tokenizer.get_vocab()
 if cfg.resize_embedding:
     model.resize_token_embeddings(len(tokenizer))
 print(f"n_train={len(dataset)}")

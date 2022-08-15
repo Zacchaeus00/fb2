@@ -60,8 +60,8 @@ nb_cfg = {
     "model_name_or_path": cfg.ckpt,
 }
 ds, tokenizer = get_dataset(nb_cfg)
-assert 'CLS_CLAIM' in tokenizer.get_vocab()
-assert 'CLS_END' in tokenizer.get_vocab()
+assert '[CLS_CLAIM]' in tokenizer.get_vocab()
+assert '[END_CLAIM]' in tokenizer.get_vocab()
 print("dataset:", ds)
 print("dataset[0]:", ds[0])
 
