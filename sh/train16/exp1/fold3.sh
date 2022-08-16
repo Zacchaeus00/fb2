@@ -1,5 +1,5 @@
 #!/bin/bash
-##nbroad train10-exp1
+##nbroad train16-exp0 + pretrain1
 #SBATCH --job-name=train16-exp1-fold3
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -26,7 +26,7 @@ source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u train16.py --ckpt /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-large \
 --epochs 10 --batch_size 2 --lr 5e-6 --lr_head 1e-4 --seed -1 --fold 3 --exp 1 \
---use_pretrained /gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain0/exp6/pretrained_model.pt \
+--use_pretrained/gpfsnyu/scratch/yw3642/fb2/ckpt/pretrain1/exp0/microsoft_deberta-v3-large/checkpoint-116970 \
 --adv_lr 1 --adv_eps 0.00025 --adv_after_epoch 1 --patience 30 --gradient_checkpointing \
 --warmup_ratio 0.1 --resize_embedding
 
