@@ -44,6 +44,7 @@ def parse_args_train():
     arg('--warmup_ratio', type=float, default=0)
     arg('--fix', action="store_true", required=False)
     arg('--resize_embedding', action="store_true", required=False)
+    arg('--random_fold', action="store_true", required=False)
     return parser.parse_args()
 
 
@@ -65,13 +66,18 @@ assert '[END_CLAIM]' in tokenizer.get_vocab()
 print("dataset:", ds)
 print("dataset[0]:", ds[0])
 
-fold_df = pd.read_csv('../data/train_folds.csv')
-folds = []
-for sample in ds:
-    eid = sample['essay_id']
-    df = fold_df[fold_df['essay_id']==eid]
-    assert(df['kfold'].nunique()==1)
-    folds.append(df['kfold'].values[0])
+
+if cfg.random_fold:
+    print('RANDOM FOLD')
+    folds = np.random.randint(0, 5, len(ds))
+else:
+    fold_df = pd.read_csv('../data/train_folds.csv')
+    folds = []
+    for sample in ds:
+        eid = sample['essay_id']
+        df = fold_df[fold_df['essay_id']==eid]
+        assert(df['kfold'].nunique()==1)
+        folds.append(df['kfold'].values[0])
 ds = ds.add_column("fold", folds)
 
 keep_cols = {"input_ids", "attention_mask", "labels"}

@@ -219,10 +219,10 @@ if __name__ == '__main__':
     }
     ds, tokenizer = get_dataset(cfg)
     # print(ds)
-    # print(ds[0])
-    for sample in ds:
-        if len(sample['discourse_id']) != len(sample['label_positions']):
-            print(sample['text'])
+    print(ds[0])
+    # for sample in ds:
+    #     if len(sample['discourse_id']) != len(sample['label_positions']):
+    #         print(sample['text'])
     # print(tokenizer.decode(ds[0]['input_ids']))
     # fold_df = pd.read_csv('../data/train_folds.csv')
     # folds = []
