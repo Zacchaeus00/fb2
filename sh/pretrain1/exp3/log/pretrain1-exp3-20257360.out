@@ -1,0 +1,281 @@
+Tue Aug 16 20:27:06 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.73.01    Driver Version: 460.73.01    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  A10                 On   | 00000000:45:00.0 Off |                    0 |
+|  0%   31C    P8    15W / 150W |      0MiB / 22731MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2020 NVIDIA Corporation
+Built on Mon_Oct_12_20:09:46_PDT_2020
+Cuda compilation tools, release 11.1, V11.1.105
+Build cuda_11.1.TC455_06.29190527_0
+START
+2022-08-16 20:31:41.918617
+Namespace(batch_size=4, ckpt='/gpfsnyu/scratch/yw3642/hf-models/allenai_longformer-large-4096', epochs=30, exp=3, gradient_checkpointing=True, lr=1e-05, max_len=2048, mlm_prob=0.3, resize_embedding=True, seed=-1, weight_decay=0.0)
+seed= 7713
+15594 samples
+Phones
+
+ [CLS_LEAD] Modern humans today are always on their phone. They are always on their phone more than 5 hours a day no stop .All they do is text back and forward and just have group Chats on social media. They even do it while driving. [END_LEAD] [CLS_POSITION] They are some really bad consequences when stuff happens when it comes to a phone. [END_POSITION] [CLS_EVIDENCE] Some certain areas in the United States ban phones from class rooms just because of it.
+ [END_EVIDENCE] 
+ [CLS_EVIDENCE] When people have phones, they know about certain apps that they have .Apps like Facebook Twitter Instagram and Snapchat. So like if a friend moves away and you want to be in contact you can still be in contact by posting videos or text messages. People always have different ways how to communicate with a phone. Phones have changed due to our generation.
+ [END_EVIDENCE] 
+ [CLS_CLAIM] Driving is one of the way how to get around. People always be on their phones while doing it. Which can cause serious Problems. [END_CLAIM] [CLS_EVIDENCE] That's why there's a thing that's called no texting while driving. That's a really important thing to remember. Some people still do it because they think It's stupid. No matter what they do they still have to obey it because that's the only way how did he save.
+ [END_EVIDENCE] 
+ [CLS_EVIDENCE] Sometimes on the news there is either an accident or a suicide. It might involve someone not looking where they're going or tweet that someone sent. It either injury or death. If a mysterious number says I'm going to kill you and they know where you live but you don't know the person's contact
+
+,It makes you puzzled and make you start to freak out. Which can end up really badly.
+ [END_EVIDENCE] 
+ [CLS_CLAIM] Phones are fine to use and it's also the best way to come over help. [END_CLAIM] [CLS_EVIDENCE] If you go through a problem and you can't find help you ,always have a phone there with you. Even though phones are used almost every day as long as you're safe it would come into use if you get into trouble. Make sure you do not be like this phone while you're in the middle of driving. [END_EVIDENCE] [CLS_CONCLUDING_STATEMENT] The news always updated when people do something stupid around that involves their phones. The safest way is the best way to stay safe. [END_CONCLUDING_STATEMENT]   
+vocab size: 50279
+len(tokenizer) = 50279
+n_train=15594
+{'loss': 15.2423, 'learning_rate': 2.1073779601607252e-07, 'epoch': 0.13}
+{'loss': 7.4587, 'learning_rate': 4.244678122595538e-07, 'epoch': 0.26}
+{'loss': 5.8273, 'learning_rate': 6.38197828503035e-07, 'epoch': 0.38}
+{'loss': 4.9926, 'learning_rate': 8.519278447465162e-07, 'epoch': 0.51}
+{'loss': 4.4413, 'learning_rate': 1.0656578609899975e-06, 'epoch': 0.64}
+{'loss': 3.9931, 'learning_rate': 1.2793878772334789e-06, 'epoch': 0.77}
+{'loss': 3.6367, 'learning_rate': 1.49311789347696e-06, 'epoch': 0.9}
+{'loss': 3.3685, 'learning_rate': 1.7068479097204413e-06, 'epoch': 1.03}
+{'loss': 3.1344, 'learning_rate': 1.920577925963923e-06, 'epoch': 1.15}
+{'loss': 2.9526, 'learning_rate': 2.1343079422074035e-06, 'epoch': 1.28}
+{'loss': 2.7575, 'learning_rate': 2.348037958450885e-06, 'epoch': 1.41}
+{'loss': 2.6573, 'learning_rate': 2.5613405146618793e-06, 'epoch': 1.54}
+{'loss': 2.5273, 'learning_rate': 2.7750705309053604e-06, 'epoch': 1.67}
+{'loss': 2.4646, 'learning_rate': 2.9883730871163547e-06, 'epoch': 1.8}
+{'loss': 2.3884, 'learning_rate': 3.202103103359836e-06, 'epoch': 1.92}
+{'loss': 2.2834, 'learning_rate': 3.4158331196033174e-06, 'epoch': 2.05}
+{'loss': 2.2332, 'learning_rate': 3.6295631358467985e-06, 'epoch': 2.18}
+{'loss': 2.1502, 'learning_rate': 3.84329315209028e-06, 'epoch': 2.31}
+{'loss': 2.1023, 'learning_rate': 4.057023168333761e-06, 'epoch': 2.44}
+{'loss': 2.0807, 'learning_rate': 4.270753184577243e-06, 'epoch': 2.56}
+{'loss': 2.0306, 'learning_rate': 4.484483200820723e-06, 'epoch': 2.69}
+{'loss': 1.9861, 'learning_rate': 4.698213217064204e-06, 'epoch': 2.82}
+{'loss': 1.9469, 'learning_rate': 4.911943233307686e-06, 'epoch': 2.95}
+{'loss': 1.9137, 'learning_rate': 5.1256732495511675e-06, 'epoch': 3.08}
+{'loss': 1.8875, 'learning_rate': 5.3394032657946486e-06, 'epoch': 3.21}
+{'loss': 1.8531, 'learning_rate': 5.55313328203813e-06, 'epoch': 3.33}
+{'loss': 1.8294, 'learning_rate': 5.7664358382491236e-06, 'epoch': 3.46}
+{'loss': 1.806, 'learning_rate': 5.9801658544926055e-06, 'epoch': 3.59}
+{'loss': 1.7861, 'learning_rate': 6.193895870736087e-06, 'epoch': 3.72}
+{'loss': 1.7647, 'learning_rate': 6.4076258869795686e-06, 'epoch': 3.85}
+{'loss': 1.7353, 'learning_rate': 6.621355903223049e-06, 'epoch': 3.98}
+{'loss': 1.7063, 'learning_rate': 6.835085919466531e-06, 'epoch': 4.1}
+{'loss': 1.6961, 'learning_rate': 7.048815935710012e-06, 'epoch': 4.23}
+{'loss': 1.6942, 'learning_rate': 7.262545951953492e-06, 'epoch': 4.36}
+{'loss': 1.6765, 'learning_rate': 7.475848508164487e-06, 'epoch': 4.49}
+{'loss': 1.654, 'learning_rate': 7.689151064375482e-06, 'epoch': 4.62}
+{'loss': 1.6354, 'learning_rate': 7.902881080618963e-06, 'epoch': 4.74}
+{'loss': 1.6566, 'learning_rate': 8.11575617679747e-06, 'epoch': 4.87}
+{'loss': 1.6153, 'learning_rate': 8.329058733008465e-06, 'epoch': 5.0}
+{'loss': 1.6027, 'learning_rate': 8.542788749251946e-06, 'epoch': 5.13}
+{'loss': 1.5865, 'learning_rate': 8.756518765495427e-06, 'epoch': 5.26}
+{'loss': 1.5822, 'learning_rate': 8.970248781738908e-06, 'epoch': 5.39}
+{'loss': 1.5763, 'learning_rate': 9.18397879798239e-06, 'epoch': 5.51}
+{'loss': 1.5502, 'learning_rate': 9.39770881422587e-06, 'epoch': 5.64}
+{'loss': 1.5504, 'learning_rate': 9.611438830469352e-06, 'epoch': 5.77}
+{'loss': 1.5536, 'learning_rate': 9.825168846712834e-06, 'epoch': 5.9}
+{'loss': 1.5313, 'learning_rate': 9.990275284260923e-06, 'epoch': 6.03}
+{'loss': 1.5076, 'learning_rate': 9.936949645208175e-06, 'epoch': 6.16}
+{'loss': 1.4931, 'learning_rate': 9.883517141147303e-06, 'epoch': 6.28}
+{'loss': 1.5011, 'learning_rate': 9.830084637086433e-06, 'epoch': 6.41}
+{'loss': 1.4945, 'learning_rate': 9.776652133025563e-06, 'epoch': 6.54}
+{'loss': 1.4969, 'learning_rate': 9.723219628964693e-06, 'epoch': 6.67}
+{'loss': 1.4814, 'learning_rate': 9.669787124903822e-06, 'epoch': 6.8}
+{'loss': 1.4814, 'learning_rate': 9.616354620842952e-06, 'epoch': 6.92}
+{'loss': 1.4661, 'learning_rate': 9.563028981790204e-06, 'epoch': 7.05}
+{'loss': 1.453, 'learning_rate': 9.509596477729332e-06, 'epoch': 7.18}
+{'loss': 1.4392, 'learning_rate': 9.456163973668462e-06, 'epoch': 7.31}
+{'loss': 1.4563, 'learning_rate': 9.402731469607592e-06, 'epoch': 7.44}
+{'loss': 1.4559, 'learning_rate': 9.349298965546722e-06, 'epoch': 7.57}
+{'loss': 1.4239, 'learning_rate': 9.295866461485853e-06, 'epoch': 7.69}
+{'loss': 1.4384, 'learning_rate': 9.242433957424981e-06, 'epoch': 7.82}
+{'loss': 1.4237, 'learning_rate': 9.189001453364111e-06, 'epoch': 7.95}
+{'loss': 1.4011, 'learning_rate': 9.135568949303241e-06, 'epoch': 8.08}
+{'loss': 1.3877, 'learning_rate': 9.082243310250493e-06, 'epoch': 8.21}
+{'loss': 1.4199, 'learning_rate': 9.028810806189621e-06, 'epoch': 8.34}
+{'loss': 1.402, 'learning_rate': 8.975485167136873e-06, 'epoch': 8.46}
+{'loss': 1.3844, 'learning_rate': 8.922052663076003e-06, 'epoch': 8.59}
+{'loss': 1.3942, 'learning_rate': 8.868620159015133e-06, 'epoch': 8.72}
+{'loss': 1.3937, 'learning_rate': 8.815187654954263e-06, 'epoch': 8.85}
+{'loss': 1.3773, 'learning_rate': 8.761755150893392e-06, 'epoch': 8.98}
+{'loss': 1.3789, 'learning_rate': 8.708322646832522e-06, 'epoch': 9.1}
+{'loss': 1.3784, 'learning_rate': 8.654890142771652e-06, 'epoch': 9.23}
+{'loss': 1.3534, 'learning_rate': 8.601457638710782e-06, 'epoch': 9.36}
+{'loss': 1.3655, 'learning_rate': 8.54802513464991e-06, 'epoch': 9.49}
+{'loss': 1.3715, 'learning_rate': 8.49459263058904e-06, 'epoch': 9.62}
+{'loss': 1.3684, 'learning_rate': 8.441160126528171e-06, 'epoch': 9.75}
+{'loss': 1.3479, 'learning_rate': 8.3877276224673e-06, 'epoch': 9.87}
+{'loss': 1.3378, 'learning_rate': 8.33429511840643e-06, 'epoch': 10.0}
+{'loss': 1.3589, 'learning_rate': 8.28086261434556e-06, 'epoch': 10.13}
+{'loss': 1.3438, 'learning_rate': 8.227430110284688e-06, 'epoch': 10.26}
+{'loss': 1.3295, 'learning_rate': 8.173997606223818e-06, 'epoch': 10.39}
+{'loss': 1.3353, 'learning_rate': 8.120565102162948e-06, 'epoch': 10.52}
+{'loss': 1.3256, 'learning_rate': 8.067132598102077e-06, 'epoch': 10.64}
+{'loss': 1.3285, 'learning_rate': 8.01380695904933e-06, 'epoch': 10.77}
+{'loss': 1.3409, 'learning_rate': 7.960374454988459e-06, 'epoch': 10.9}
+{'loss': 1.3181, 'learning_rate': 7.90704881593571e-06, 'epoch': 11.03}
+{'loss': 1.3127, 'learning_rate': 7.85361631187484e-06, 'epoch': 11.16}
+{'loss': 1.3224, 'learning_rate': 7.80018380781397e-06, 'epoch': 11.28}
+{'loss': 1.2965, 'learning_rate': 7.746751303753099e-06, 'epoch': 11.41}
+{'loss': 1.3176, 'learning_rate': 7.693318799692229e-06, 'epoch': 11.54}
+{'loss': 1.3134, 'learning_rate': 7.639886295631359e-06, 'epoch': 11.67}
+{'loss': 1.313, 'learning_rate': 7.5864537915704884e-06, 'epoch': 11.8}
+{'loss': 1.3091, 'learning_rate': 7.533021287509619e-06, 'epoch': 11.93}
+{'loss': 1.3073, 'learning_rate': 7.479588783448748e-06, 'epoch': 12.05}
+{'loss': 1.2875, 'learning_rate': 7.426263144395999e-06, 'epoch': 12.18}
+{'loss': 1.2943, 'learning_rate': 7.372830640335129e-06, 'epoch': 12.31}
+{'loss': 1.3025, 'learning_rate': 7.31939813627426e-06, 'epoch': 12.44}
+{'loss': 1.2944, 'learning_rate': 7.265965632213389e-06, 'epoch': 12.57}
+{'loss': 1.2892, 'learning_rate': 7.212533128152518e-06, 'epoch': 12.7}
+{'loss': 1.2852, 'learning_rate': 7.1591006240916485e-06, 'epoch': 12.82}
+{'loss': 1.2822, 'learning_rate': 7.105668120030778e-06, 'epoch': 12.95}
+{'loss': 1.2817, 'learning_rate': 7.052235615969908e-06, 'epoch': 13.08}
+{'loss': 1.274, 'learning_rate': 6.998803111909037e-06, 'epoch': 13.21}
+{'loss': 1.2745, 'learning_rate': 6.945584337864411e-06, 'epoch': 13.34}
+{'loss': 1.2732, 'learning_rate': 6.892151833803539e-06, 'epoch': 13.46}
+{'loss': 1.2747, 'learning_rate': 6.838826194750792e-06, 'epoch': 13.59}
+{'loss': 1.2714, 'learning_rate': 6.7855005556980425e-06, 'epoch': 13.72}
+{'loss': 1.2865, 'learning_rate': 6.732068051637173e-06, 'epoch': 13.85}
+{'loss': 1.2677, 'learning_rate': 6.678635547576302e-06, 'epoch': 13.98}
+{'loss': 1.252, 'learning_rate': 6.625203043515431e-06, 'epoch': 14.11}
+{'loss': 1.2528, 'learning_rate': 6.571770539454561e-06, 'epoch': 14.23}
+{'loss': 1.2565, 'learning_rate': 6.518444900401812e-06, 'epoch': 14.36}
+{'loss': 1.255, 'learning_rate': 6.465012396340943e-06, 'epoch': 14.49}
+{'loss': 1.2555, 'learning_rate': 6.411579892280072e-06, 'epoch': 14.62}
+{'loss': 1.251, 'learning_rate': 6.3581473882192025e-06, 'epoch': 14.75}
+{'loss': 1.263, 'learning_rate': 6.304714884158332e-06, 'epoch': 14.88}
+{'loss': 1.2615, 'learning_rate': 6.251282380097461e-06, 'epoch': 15.0}
+{'loss': 1.2481, 'learning_rate': 6.197849876036591e-06, 'epoch': 15.13}
+{'loss': 1.2413, 'learning_rate': 6.144524236983842e-06, 'epoch': 15.26}
+{'loss': 1.2294, 'learning_rate': 6.091091732922972e-06, 'epoch': 15.39}
+{'loss': 1.2416, 'learning_rate': 6.037659228862101e-06, 'epoch': 15.52}
+{'loss': 1.2286, 'learning_rate': 5.984226724801232e-06, 'epoch': 15.65}
+{'loss': 1.2377, 'learning_rate': 5.930794220740362e-06, 'epoch': 15.77}
+{'loss': 1.259, 'learning_rate': 5.87736171667949e-06, 'epoch': 15.9}
+{'loss': 1.2476, 'learning_rate': 5.823929212618621e-06, 'epoch': 16.03}
+{'loss': 1.2171, 'learning_rate': 5.77049670855775e-06, 'epoch': 16.16}
+{'loss': 1.2342, 'learning_rate': 5.717171069505002e-06, 'epoch': 16.29}
+{'loss': 1.2226, 'learning_rate': 5.663738565444131e-06, 'epoch': 16.41}
+{'loss': 1.2224, 'learning_rate': 5.610306061383261e-06, 'epoch': 16.54}
+{'loss': 1.2425, 'learning_rate': 5.556873557322391e-06, 'epoch': 16.67}
+{'loss': 1.2216, 'learning_rate': 5.50344105326152e-06, 'epoch': 16.8}
+{'loss': 1.2435, 'learning_rate': 5.45000854920065e-06, 'epoch': 16.93}
+{'loss': 1.2206, 'learning_rate': 5.396682910147901e-06, 'epoch': 17.06}
+{'loss': 1.2044, 'learning_rate': 5.343250406087032e-06, 'epoch': 17.18}
+{'loss': 1.2126, 'learning_rate': 5.2899247670342825e-06, 'epoch': 17.31}
+{'loss': 1.2131, 'learning_rate': 5.236492262973413e-06, 'epoch': 17.44}
+{'loss': 1.1997, 'learning_rate': 5.183059758912542e-06, 'epoch': 17.57}
+{'loss': 1.2169, 'learning_rate': 5.1297341198597935e-06, 'epoch': 17.7}
+{'loss': 1.2316, 'learning_rate': 5.076301615798923e-06, 'epoch': 17.83}
+{'loss': 1.2124, 'learning_rate': 5.022869111738052e-06, 'epoch': 17.95}
+{'loss': 1.2113, 'learning_rate': 4.969436607677183e-06, 'epoch': 18.08}
+{'loss': 1.1973, 'learning_rate': 4.916004103616312e-06, 'epoch': 18.21}
+{'loss': 1.2037, 'learning_rate': 4.862571599555442e-06, 'epoch': 18.34}
+{'loss': 1.208, 'learning_rate': 4.809139095494572e-06, 'epoch': 18.47}
+{'loss': 1.1961, 'learning_rate': 4.755706591433701e-06, 'epoch': 18.59}
+{'loss': 1.2146, 'learning_rate': 4.702274087372831e-06, 'epoch': 18.72}
+{'loss': 1.2061, 'learning_rate': 4.6488415833119606e-06, 'epoch': 18.85}
+{'loss': 1.1978, 'learning_rate': 4.59540907925109e-06, 'epoch': 18.98}
+{'loss': 1.196, 'learning_rate': 4.54197657519022e-06, 'epoch': 19.11}
+{'loss': 1.1961, 'learning_rate': 4.48854407112935e-06, 'epoch': 19.24}
+{'loss': 1.1917, 'learning_rate': 4.435218432076601e-06, 'epoch': 19.36}
+{'loss': 1.1935, 'learning_rate': 4.381785928015731e-06, 'epoch': 19.49}
+{'loss': 1.1922, 'learning_rate': 4.328353423954861e-06, 'epoch': 19.62}
+{'loss': 1.2066, 'learning_rate': 4.2749209198939904e-06, 'epoch': 19.75}
+{'loss': 1.1885, 'learning_rate': 4.22148841583312e-06, 'epoch': 19.88}
+{'loss': 1.1923, 'learning_rate': 4.168162776780371e-06, 'epoch': 20.01}
+{'loss': 1.1724, 'learning_rate': 4.114730272719501e-06, 'epoch': 20.13}
+{'loss': 1.1849, 'learning_rate': 4.061297768658631e-06, 'epoch': 20.26}
+{'loss': 1.1966, 'learning_rate': 4.007972129605882e-06, 'epoch': 20.39}
+{'loss': 1.1904, 'learning_rate': 3.9545396255450116e-06, 'epoch': 20.52}
+{'loss': 1.1795, 'learning_rate': 3.901107121484142e-06, 'epoch': 20.65}
+{'loss': 1.1695, 'learning_rate': 3.847674617423271e-06, 'epoch': 20.77}
+{'loss': 1.1843, 'learning_rate': 3.7942421133624007e-06, 'epoch': 20.9}
+{'loss': 1.187, 'learning_rate': 3.7408096093015304e-06, 'epoch': 21.03}
+{'loss': 1.1711, 'learning_rate': 3.6873771052406606e-06, 'epoch': 21.16}
+{'loss': 1.1757, 'learning_rate': 3.6339446011797903e-06, 'epoch': 21.29}
+{'loss': 1.1845, 'learning_rate': 3.5805120971189196e-06, 'epoch': 21.42}
+{'loss': 1.1704, 'learning_rate': 3.527186458066171e-06, 'epoch': 21.54}
+{'loss': 1.1712, 'learning_rate': 3.4737539540053005e-06, 'epoch': 21.67}
+{'loss': 1.1779, 'learning_rate': 3.42032144994443e-06, 'epoch': 21.8}
+{'loss': 1.1637, 'learning_rate': 3.3668889458835603e-06, 'epoch': 21.93}
+{'loss': 1.1689, 'learning_rate': 3.31345644182269e-06, 'epoch': 22.06}
+{'loss': 1.1662, 'learning_rate': 3.2600239377618198e-06, 'epoch': 22.19}
+{'loss': 1.1577, 'learning_rate': 3.206591433700949e-06, 'epoch': 22.31}
+{'loss': 1.1654, 'learning_rate': 3.153158929640079e-06, 'epoch': 22.44}
+{'loss': 1.1726, 'learning_rate': 3.0997264255792085e-06, 'epoch': 22.57}
+{'loss': 1.1617, 'learning_rate': 3.04640078652646e-06, 'epoch': 22.7}
+{'loss': 1.1644, 'learning_rate': 2.9929682824655898e-06, 'epoch': 22.83}
+{'loss': 1.1694, 'learning_rate': 2.9395357784047195e-06, 'epoch': 22.95}
+{'loss': 1.1595, 'learning_rate': 2.886103274343849e-06, 'epoch': 23.08}
+{'loss': 1.1583, 'learning_rate': 2.8326707702829785e-06, 'epoch': 23.21}
+{'loss': 1.1714, 'learning_rate': 2.7792382662221087e-06, 'epoch': 23.34}
+{'loss': 1.1576, 'learning_rate': 2.7259126271693598e-06, 'epoch': 23.47}
+{'loss': 1.1628, 'learning_rate': 2.6724801231084895e-06, 'epoch': 23.6}
+{'loss': 1.1572, 'learning_rate': 2.619154484055741e-06, 'epoch': 23.72}
+{'loss': 1.1572, 'learning_rate': 2.5657219799948707e-06, 'epoch': 23.85}
+{'loss': 1.1531, 'learning_rate': 2.5122894759340005e-06, 'epoch': 23.98}
+{'loss': 1.1373, 'learning_rate': 2.45885697187313e-06, 'epoch': 24.11}
+{'loss': 1.1512, 'learning_rate': 2.40542446781226e-06, 'epoch': 24.24}
+{'loss': 1.1505, 'learning_rate': 2.352098828759511e-06, 'epoch': 24.37}
+{'loss': 1.1582, 'learning_rate': 2.298666324698641e-06, 'epoch': 24.49}
+{'loss': 1.161, 'learning_rate': 2.2453406856458923e-06, 'epoch': 24.62}
+{'loss': 1.154, 'learning_rate': 2.191908181585022e-06, 'epoch': 24.75}
+{'loss': 1.1432, 'learning_rate': 2.1384756775241517e-06, 'epoch': 24.88}
+{'loss': 1.178, 'learning_rate': 2.0850431734632815e-06, 'epoch': 25.01}
+{'loss': 1.1444, 'learning_rate': 2.031610669402411e-06, 'epoch': 25.13}
+{'loss': 1.1546, 'learning_rate': 1.978178165341541e-06, 'epoch': 25.26}
+{'loss': 1.1677, 'learning_rate': 1.924852526288792e-06, 'epoch': 25.39}
+{'loss': 1.1376, 'learning_rate': 1.871420022227922e-06, 'epoch': 25.52}
+{'loss': 1.1449, 'learning_rate': 1.8179875181670515e-06, 'epoch': 25.65}
+{'loss': 1.1532, 'learning_rate': 1.7645550141061812e-06, 'epoch': 25.78}
+{'loss': 1.1319, 'learning_rate': 1.7111225100453107e-06, 'epoch': 25.9}
+{'loss': 1.1363, 'learning_rate': 1.6576900059844406e-06, 'epoch': 26.03}
+{'loss': 1.1436, 'learning_rate': 1.6042575019235703e-06, 'epoch': 26.16}
+{'loss': 1.1478, 'learning_rate': 1.5508249978626999e-06, 'epoch': 26.29}
+{'loss': 1.1391, 'learning_rate': 1.4973924938018298e-06, 'epoch': 26.42}
+{'loss': 1.1498, 'learning_rate': 1.4440668547490811e-06, 'epoch': 26.55}
+{'loss': 1.1508, 'learning_rate': 1.3907412156963326e-06, 'epoch': 26.67}
+{'loss': 1.1313, 'learning_rate': 1.3373087116354622e-06, 'epoch': 26.8}
+{'loss': 1.1368, 'learning_rate': 1.2838762075745919e-06, 'epoch': 26.93}
+{'loss': 1.1446, 'learning_rate': 1.2304437035137216e-06, 'epoch': 27.06}
+{'loss': 1.148, 'learning_rate': 1.177118064460973e-06, 'epoch': 27.19}
+{'loss': 1.1157, 'learning_rate': 1.1236855604001026e-06, 'epoch': 27.31}
+{'loss': 1.1435, 'learning_rate': 1.0702530563392324e-06, 'epoch': 27.44}
+{'loss': 1.1345, 'learning_rate': 1.016820552278362e-06, 'epoch': 27.57}
+{'loss': 1.1444, 'learning_rate': 9.633880482174918e-07, 'epoch': 27.7}
+{'loss': 1.1324, 'learning_rate': 9.100624091647432e-07, 'epoch': 27.83}
+{'loss': 1.1356, 'learning_rate': 8.566299051038729e-07, 'epoch': 27.96}
+{'loss': 1.1319, 'learning_rate': 8.031974010430026e-07, 'epoch': 28.08}
+{'loss': 1.1258, 'learning_rate': 7.497648969821322e-07, 'epoch': 28.21}
+{'loss': 1.1538, 'learning_rate': 6.963323929212619e-07, 'epoch': 28.34}
+{'loss': 1.1239, 'learning_rate': 6.428998888603915e-07, 'epoch': 28.47}
+{'loss': 1.1391, 'learning_rate': 5.894673847995213e-07, 'epoch': 28.6}
+{'loss': 1.1337, 'learning_rate': 5.361417457467727e-07, 'epoch': 28.73}
+{'loss': 1.1383, 'learning_rate': 4.827092416859024e-07, 'epoch': 28.85}
+{'loss': 1.1455, 'learning_rate': 4.292767376250321e-07, 'epoch': 28.98}
+{'loss': 1.1297, 'learning_rate': 3.7584423356416175e-07, 'epoch': 29.11}
+{'loss': 1.1389, 'learning_rate': 3.224117295032915e-07, 'epoch': 29.24}
+{'loss': 1.1298, 'learning_rate': 2.6897922544242115e-07, 'epoch': 29.37}
+{'loss': 1.1356, 'learning_rate': 2.156535863896726e-07, 'epoch': 29.49}
+{'loss': 1.121, 'learning_rate': 1.6222108232880227e-07, 'epoch': 29.62}
+{'loss': 1.1285, 'learning_rate': 1.0878857826793197e-07, 'epoch': 29.75}
+{'loss': 1.1376, 'learning_rate': 5.5356074207061644e-08, 'epoch': 29.88}
+{'train_runtime': 117430.2151, 'train_samples_per_second': 3.984, 'train_steps_per_second': 0.996, 'train_loss': 1.525742917918156, 'epoch': 30.0}
+FINISH
