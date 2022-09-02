@@ -1,2 +1,1 @@
-# fb2
-https://www.kaggle.com/competitions/feedback-prize-effectiveness
+This is the source code of my attempt on the [Feedback Prize - Predicting Effective Arguments competition](https://www.kaggle.com/competitions/feedback-prize-effectiveness) on Kaggle. I worked in a brilliant group and was fortunate to rank **12/1557** in the final evaluation. Credit to the [baseline](https://www.kaggle.com/code/nbroad/token-classification-approach-fpe) by Nicholas Broad.
